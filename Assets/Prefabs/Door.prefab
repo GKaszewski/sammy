@@ -12,7 +12,7 @@ GameObject:
   m_Layer: 0
   m_Name: Crystal position
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1248756839610291660}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 3, z: 0}
+  m_LocalPosition: {x: -0.01, y: 0.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -96,9 +96,10 @@ MonoBehaviour:
   doorType: 0
   doorRenderer: {fileID: 3073759483766190174}
   openOffset: {x: 0, y: 5, z: 0}
-  crystalPosition: {fileID: 0}
-  movementTime: 2
-  crystalPrefab: {fileID: 0}
+  crystalPosition: {fileID: 2021207878694268275}
+  movementTime: 5
+  crystalMovementTime: 2
+  crystalPrefab: {fileID: 4297687331928692055, guid: a2b27ca9591484c49a2bb25afb8f93e6, type: 3}
   doorMaterials:
   - {fileID: 2100000, guid: 1fdbb5bf7c39dea49875c9a3f0e3e220, type: 2}
   - {fileID: 2100000, guid: afa4b59fe7809ca43975e1e90545f771, type: 2}

@@ -9,6 +9,8 @@ public class Inventory : MonoBehaviour {
 
     public GameObject crystalPrefab;
     public Transform crystalSpawnPosition;
+    [HideInInspector]
+    public CrystalColor previousColor;
 
     private void Start() {
         reactiveCrystalInfo = new ReactiveProperty<CrystalColor>(CrystalColor.NONE);

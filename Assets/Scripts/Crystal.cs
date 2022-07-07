@@ -13,26 +13,21 @@ public enum CrystalColor {
     NONE
 }
 
-public class Crystal : MonoBehaviour {
+public class Crystal : BaseCrystal {
     [SerializeField]
     [Range(0f, 1f)]
     private float rotationTime = 0.2f;
     [HideInInspector]
     public Rigidbody rb;
     
-    public CrystalColor color;
-    public MeshRenderer renderer;
     public float force = 2f;
     public float resetRotationTimer = 10f;
-
-    [Tooltip("RED, BLUE, GREEN, YELLOW, ORANGE, PURPLE")]
-    public List<Material> crystalMaterials = new List<Material>();
-
+    
     public Transform player;
     
-    private void Start() {
+    protected void Start() {
+        base.Start();
         rb = GetComponent<Rigidbody>();
-        HandleMaterial();
     }
 
     public void Die() {
@@ -55,29 +50,6 @@ public class Crystal : MonoBehaviour {
     private IEnumerator FixRotation() {
         yield return new WaitForSeconds(resetRotationTimer);
         ResetRotation();
-    }
-
-    public void HandleMaterial() {
-        switch (color) {
-            case CrystalColor.RED:
-                renderer.material = crystalMaterials[0];
-                break;
-            case CrystalColor.BLUE:
-                renderer.material = crystalMaterials[1];
-                break;
-            case CrystalColor.GREEN:
-                renderer.material = crystalMaterials[2];
-                break;
-            case CrystalColor.YELLOW:
-                renderer.material = crystalMaterials[3];
-                break;
-            case CrystalColor.ORANGE:
-                renderer.material = crystalMaterials[4];
-                break;
-            case CrystalColor.PURPLE:
-                renderer.material = crystalMaterials[5];
-                break;
-        }
     }
     
     public static CrystalColor Mix(CrystalColor color, CrystalColor otherCrystal) {

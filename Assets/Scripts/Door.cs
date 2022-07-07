@@ -12,7 +12,11 @@ public class Door : MonoBehaviour {
     private bool areOpen = false;
     private Vector3 openDestination;
     private Vector3 closeDestination;
+    private float openDistance;
+    private float closeDistance;
     private Inventory playerInventory;
+
+    private GameObject spawnedMovingCrystal;
 
     public CrystalColor doorColor;
     public DoorType doorType;
@@ -33,6 +37,11 @@ public class Door : MonoBehaviour {
     private void Start() {
         HandleMaterial();
         CalculateOpenAndClosePosition();
+    }
+
+    private void Update() {
+        openDistance = Vector3.Distance(transform.position, openDestination);
+        closeDistance = Vector3.Distance(transform.position, closeDestination);
     }
 
     private void CalculateOpenAndClosePosition() {
@@ -85,6 +94,7 @@ public class Door : MonoBehaviour {
             playerInventory.reactiveCrystalInfo.Value = CrystalColor.NONE;
         }
 
+        areOpen = true;
         SpawnCrystalParticles();
     }
 
@@ -92,50 +102,49 @@ public class Door : MonoBehaviour {
     }
 
     private void ReturnCrystal() {
-        if (playerInventory && playerInventory.reactiveCrystalInfo.Value != CrystalColor.MULTI)
+        if (playerInventory && playerInventory.reactiveCrystalInfo.Value != CrystalColor.MULTI && doorType == DoorType.OPEN_AND_HOLD)
             playerInventory.reactiveCrystalInfo.Value = doorColor;
     }
 
     private void MoveCrystalTowardsDoors() {
         if (!playerInventory) return;
-
-        MoveCrystal(playerInventory.transform.position, crystalPosition.position);
-    }
-
-    private void MoveCrystal(Vector3 from, Vector3 to) {
-        var crystal = Instantiate(crystalPrefab, from, Quaternion.identity).GetComponent<Crystal>();
-        var rb = crystal.GetComponent<Rigidbody>();
-        crystal.GetComponent<Collider>().enabled = false;
-        crystal.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+        var crystal = Instantiate(crystalPrefab, playerInventory.crystalSpawnPosition.position, Quaternion.identity).GetComponent<MovingCrystal>();
         crystal.color = doorColor;
-        crystal.color = doorColor;
-        rb.detectCollisions = false;
-        rb.useGravity = false;
-        LeanTween.moveLocal(crystal.gameObject, to, movementTime)
-            .setOnComplete(() => Destroy(crystal));
+        LeanTween.move(crystal.gameObject, crystalPosition, openDistance / movementTime)
+            .setOnComplete(() => Destroy(crystal.gameObject));
+
+        spawnedMovingCrystal = crystal.gameObject;
     }
 
     private void MoveCrystalTowardsPlayer() {
-        if (!playerInventory) return;
-
-        MoveCrystal(crystalPosition.position, playerInventory.transform.position);
+        if (!playerInventory || !spawnedMovingCrystal) return;
+        LeanTween.cancel(spawnedMovingCrystal);
+        LeanTween.move(spawnedMovingCrystal, playerInventory.crystalSpawnPosition,  closeDistance / movementTime)
+            .setOnComplete(() => Destroy(spawnedMovingCrystal));
     }
 
     public void Open() {
         AudioManager.instance.Play("door open");
-        if (doorType == DoorType.OPEN_AND_HOLD)
-            LeanTween.move(gameObject, openDestination, movementTime).setEaseLinear()
+        LeanTween.cancel(gameObject);
+        if (doorType == DoorType.OPEN_AND_HOLD) {
+            playerInventory.previousColor = playerInventory.reactiveCrystalInfo.Value;
+            playerInventory.reactiveCrystalInfo.Value = CrystalColor.NONE;
+            MoveCrystalTowardsDoors();
+            LeanTween.move(gameObject, openDestination, openDistance / movementTime).setEaseLinear()
                 .setOnComplete(DestroyCrystal);
-        else
-            LeanTween.move(gameObject, openDestination, movementTime).setEaseLinear()
+        } else {
+            LeanTween.move(gameObject, openDestination, openDistance / movementTime).setEaseLinear()
                 .setOnComplete(SpawnCrystalParticles);
+            areOpen = true;
+        }
 
-        areOpen = true;
+       
     }
 
     public void Close() {
         LeanTween.cancel(gameObject);
-        LeanTween.move(gameObject, closeDestination, movementTime).setEaseInOutSine().setOnComplete(ReturnCrystal);
+        LeanTween.move(gameObject, closeDestination, closeDistance / movementTime).setEaseInOutSine().setOnComplete(ReturnCrystal);
+        if (doorType == DoorType.OPEN_AND_HOLD) MoveCrystalTowardsPlayer();
         areOpen = false;
     }
 
@@ -160,8 +169,11 @@ public class Door : MonoBehaviour {
         if (!other.CompareTag("Player")) return;
         var playerInventory = other.GetComponent<Inventory>();
         if (!playerInventory) return;
-        if (doorType == DoorType.OPEN_AND_HOLD) return;
-        if (areOpen) Close();
+        if (doorType == DoorType.OPEN_AND_HOLD && !areOpen && doorColor == playerInventory.previousColor) {
+            Close();
+            return;
+        }
+        if (areOpen && doorType != DoorType.OPEN_AND_HOLD) Close();
     }
 
     private void OnDrawGizmos() {
