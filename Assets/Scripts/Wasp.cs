@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Wasp : MonoBehaviour {
     public float livingTime = 5f;
+    public int damage = 1;
 
     private void Start() {
         Destroy(gameObject, livingTime);
@@ -9,9 +10,9 @@ public class Wasp : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision) {
         if (collision.collider.CompareTag("Lion")) {
-            Debug.Log("Hit enemy!");
+            
             var obj = collision.collider.gameObject;
-            if (obj) Destroy(obj);
+            obj.GetComponent<EnemyHealth>()?.TakeDamage(damage);
             Destroy(gameObject);
         }
         Destroy(gameObject);

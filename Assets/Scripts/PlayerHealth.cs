@@ -1,9 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class PlayerHealth : Health{
-    public int health = 4;
-
+public class PlayerHealth : Health {
     private void Start() {
         for (var i = 0; i < health; i++) {
             AddHeartToUI();
@@ -27,7 +25,7 @@ public class PlayerHealth : Health{
     }
 
     public override void TakeDamage(int damage = 1){
-        health -= damage;
+        base.TakeDamage(damage);
         Debug.Log("took damage");
         RemoveHeartFromUI();
         if(health <= 0){
