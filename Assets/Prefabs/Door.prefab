@@ -98,7 +98,6 @@ MonoBehaviour:
   openOffset: {x: 0, y: 5, z: 0}
   crystalPosition: {fileID: 2021207878694268275}
   movementTime: 5
-  crystalMovementTime: 2
   crystalPrefab: {fileID: 4297687331928692055, guid: a2b27ca9591484c49a2bb25afb8f93e6, type: 3}
   doorMaterials:
   - {fileID: 2100000, guid: 1fdbb5bf7c39dea49875c9a3f0e3e220, type: 2}
@@ -107,6 +106,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: a27fdb4beb862c647b2c8818838759a9, type: 2}
   - {fileID: 2100000, guid: 0e424ba4d952c3b4eb5341e954682e5d, type: 2}
   - {fileID: 2100000, guid: 9d29c2b2a92558f429bdafe2a19222dc, type: 2}
+  - {fileID: 2100000, guid: 3f9993a054cbae14d9fc1806431d7259, type: 2}
   darkerDoorMaterials:
   - {fileID: 2100000, guid: f1ad3fb7ecea3b249b5a268baa2f8cdd, type: 2}
   - {fileID: 2100000, guid: 0103016135a1ac74a9480fd638a4d513, type: 2}
@@ -114,6 +114,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: df957af01d7465946afaea79aa0b6ff9, type: 2}
   - {fileID: 2100000, guid: 749cd51de61ee4c4a9e82b423e9d639b, type: 2}
   - {fileID: 2100000, guid: 111d8f98f3a8da343a554ccec1c2c8ac, type: 2}
+  - {fileID: 2100000, guid: 3f9993a054cbae14d9fc1806431d7259, type: 2}
 --- !u!208 &5363013533058674607
 NavMeshObstacle:
   m_ObjectHideFlags: 0
