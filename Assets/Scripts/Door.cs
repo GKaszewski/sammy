@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public enum DoorType {
@@ -9,14 +7,14 @@ public enum DoorType {
 }
 
 public class Door : MonoBehaviour {
-    private bool areOpen = false;
-    private Vector3 openDestination;
-    private Vector3 closeDestination;
-    private float openDistance;
-    private float closeDistance;
     private Inventory playerInventory;
-
     private GameObject spawnedMovingCrystal;
+
+    protected bool areOpen = false;
+    protected Vector3 openDestination;
+    protected Vector3 closeDestination;
+    protected float openDistance;
+    protected float closeDistance;
 
     public CrystalColor doorColor;
     public DoorType doorType;
@@ -29,7 +27,7 @@ public class Door : MonoBehaviour {
 
     public GameObject crystalPrefab;
 
-    [Tooltip("RED, BLUE, GREEN, YELLOW, ORANGE, PURPLE")]
+    [Tooltip("RED, BLUE, GREEN, YELLOW, ORANGE, PURPLE, DISABLED")]
     public List<Material> doorMaterials = new List<Material>();
 
     public List<Material> darkerDoorMaterials = new List<Material>();
@@ -82,6 +80,11 @@ public class Door : MonoBehaviour {
                 materials[1] = darkerDoorMaterials[5];
                 materials[2] = doorMaterials[5];
                 break;
+            case CrystalColor.NONE:
+                materials[0] = doorMaterials[6];
+                materials[1] = darkerDoorMaterials[6];
+                materials[2] = doorMaterials[6];
+                break;
         }
 
         doorRenderer.materials = materials;
@@ -92,6 +95,8 @@ public class Door : MonoBehaviour {
             if (playerInventory.reactiveCrystalInfo.Value == CrystalColor.MULTI) return;
             AudioManager.instance.Play("crystal break");
             playerInventory.reactiveCrystalInfo.Value = CrystalColor.NONE;
+            doorColor = CrystalColor.NONE;
+            HandleMaterial();
         }
 
         areOpen = true;
@@ -123,7 +128,7 @@ public class Door : MonoBehaviour {
             .setOnComplete(() => Destroy(spawnedMovingCrystal));
     }
 
-    public void Open() {
+    public virtual void Open() {
         AudioManager.instance.Play("door open");
         LeanTween.cancel(gameObject);
         if (doorType == DoorType.OPEN_AND_HOLD) {

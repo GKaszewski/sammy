@@ -3,8 +3,9 @@ using UnityEngine;
 public class Wasp : MonoBehaviour {
     public float livingTime = 5f;
     public int damage = 1;
+    public float speed = 10f;
 
-    private void Start() {
+    protected void Start() {
         Destroy(gameObject, livingTime);
     }
 

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7571085927391955854}
   - component: {fileID: 3774255750342663786}
   - component: {fileID: 5505017336072226400}
+  - component: {fileID: 1247479011543732511}
   m_Layer: 0
   m_Name: MovingPlatform activate with crystal
   m_TagString: MovingPlatform
@@ -153,3 +154,19 @@ MonoBehaviour:
   - {fileID: 2100000, guid: a27fdb4beb862c647b2c8818838759a9, type: 2}
   - {fileID: 2100000, guid: 0e424ba4d952c3b4eb5341e954682e5d, type: 2}
   - {fileID: 2100000, guid: 9d29c2b2a92558f429bdafe2a19222dc, type: 2}
+--- !u!54 &1247479011543732511
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143745451752714509}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1

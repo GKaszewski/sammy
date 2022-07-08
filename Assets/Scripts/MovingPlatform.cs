@@ -9,6 +9,10 @@ public class MovingPlatform : MonoBehaviour {
     protected bool isMoving;
 
     private Transform destinationTarget, departTarget;
+    private Rigidbody rb;
+    private CharacterController cc;
+    private Vector3 oldPosition;
+    private Vector3 delta;
     private float startTime;
     private float movingTime;
     private float journeyLength;
@@ -24,24 +28,33 @@ public class MovingPlatform : MonoBehaviour {
 
         startTime = 0f;
         journeyLength = Vector3.Distance(departTarget.position, destinationTarget.position);
+
+        rb = GetComponent<Rigidbody>();
     }
 
     protected void Update() {
         if (isMoving) movingTime += Time.deltaTime;
-    }
+        delta = transform.position - oldPosition;
 
-    private void FixedUpdate() {
-        if (isOn) Move();
+        if (isOn) {
+            oldPosition = transform.position;
+            Move();
+            if (cc) cc.Move( delta);
+        }
         else isMoving = false;
     }
 
+    private void LateUpdate() {
+        oldPosition = transform.position;
+    }
+    
     private void Move() {
         if (!isWaiting) {
             if (Vector3.Distance(transform.position, destinationTarget.position) > 0.01f) {
                 isMoving = true;
                 var distCovered = (movingTime - startTime) * speed;
                 var fractionOfJourney = distCovered / journeyLength;
-                transform.position = Vector3.Lerp(departTarget.position, destinationTarget.position, fractionOfJourney);
+                rb.MovePosition(Vector3.Lerp(departTarget.position, destinationTarget.position, fractionOfJourney));
             }
             else {
                 isWaiting = true;
@@ -68,10 +81,14 @@ public class MovingPlatform : MonoBehaviour {
     }
 
     protected virtual void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Player")) other.transform.parent = transform;
+        if (other.CompareTag("Player")) {
+            cc = other.gameObject.GetComponent<CharacterController>();
+        }
     }
 
     protected virtual void OnTriggerExit(Collider other) {
-        if (other.CompareTag("Player")) other.transform.parent = null;
+        if (other.CompareTag("Player")) {
+            cc = null;
+        }
     }
 }

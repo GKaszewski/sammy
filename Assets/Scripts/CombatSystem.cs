@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class CombatSystem : MonoBehaviour {
@@ -21,8 +22,8 @@ public class CombatSystem : MonoBehaviour {
 
     private void Shoot() {
         Debug.Log("Shoot!");
-        var wasp = Instantiate(waspPrefab, waspSpawner.position, Quaternion.identity);
+        var wasp = Instantiate(waspPrefab, waspSpawner.position, quaternion.LookRotation(transform.forward, Vector3.up));
         var rb = wasp.GetComponent<Rigidbody>();
-        if (rb) rb.velocity = transform.forward * 10f;
+        if (rb) rb.velocity = transform.forward * wasp.GetComponent<Wasp>().speed;
     }
 }
