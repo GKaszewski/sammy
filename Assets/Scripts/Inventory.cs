@@ -31,10 +31,23 @@ public class Inventory : MonoBehaviour {
         }
         GameManager.Instance.eventManager.PickPointUp(points);
     }
+    
+    private Crystal SpawnCrystal(CrystalColor color, Vector3 position) {
+        AudioManager.instance.Play("crystal spawn");
+        var newCrystal = Instantiate(crystalPrefab, position, Quaternion.identity).GetComponent<Crystal>();
+        newCrystal.color = color;
+        newCrystal.HandleMaterial();
 
-    private void OnCollisionEnter(Collision collision) {
-        if (!collision.collider.CompareTag("Crystal")) return;
-        var newCrystal = collision.gameObject.GetComponent<Crystal>();
+        return newCrystal;
+    }
+
+    public void DecreaseWasps() {
+        wasps--;
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit) {
+        if (!hit.collider.CompareTag("Crystal")) return;
+        var newCrystal = hit.gameObject.GetComponent<Crystal>();
         if (!newCrystal) return;
         AudioManager.instance.Play("crystal pickup");
         if (reactiveCrystalInfo.Value != CrystalColor.NONE && reactiveCrystalInfo.Value != CrystalColor.MULTI) {
@@ -54,18 +67,5 @@ public class Inventory : MonoBehaviour {
         }
         GameManager.Instance.eventManager.PickCrystalUp(reactiveCrystalInfo.Value);
         newCrystal.Die();
-    }
-
-    private Crystal SpawnCrystal(CrystalColor color, Vector3 position) {
-        AudioManager.instance.Play("crystal spawn");
-        var newCrystal = Instantiate(crystalPrefab, position, Quaternion.identity).GetComponent<Crystal>();
-        newCrystal.color = color;
-        newCrystal.HandleMaterial();
-
-        return newCrystal;
-    }
-
-    public void DecreaseWasps() {
-        wasps--;
     }
 }

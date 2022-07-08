@@ -17,6 +17,7 @@ public class PlayerCharacterController : MonoBehaviour {
     private bool canRun = false;
     private bool isSliding = false;
     private bool ccIsGrounded = false;
+    private bool isOnPlatform = false;
 
     private const float GRAVITY = 10;
 
@@ -167,5 +168,11 @@ public class PlayerCharacterController : MonoBehaviour {
 
     private void OnControllerColliderHit(ControllerColliderHit hit) {
         hitNormal = hit.normal;
+        if (hit.collider.CompareTag("MovingPlatform")) {
+            isOnPlatform = true;
+        }
+        else {
+            isOnPlatform = false;
+        }
     }
 }

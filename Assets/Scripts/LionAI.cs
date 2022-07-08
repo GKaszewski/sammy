@@ -1,3 +1,6 @@
+using System;
+using UniRx;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,7 +9,8 @@ public enum AIState {
    PATROLING,
    WANDERING,
    CHASING,
-   ATTACKING
+   ATTACKING,
+   FLEEING
 }
 
 public class LionAI : MonoBehaviour {
@@ -14,38 +18,68 @@ public class LionAI : MonoBehaviour {
    private float distanceFromPlayer;
    private float attackTimer = 0f;
    private int currentPatrolPoint = 0;
+   private Collider[] waspsDetectedColliders;
+   private Transform wasp;
+   private AIState previousStateBuffer;
+   private AIState previousState;
+   private AIState _state;
+   private Vector3 fleePoint;
+   private Transform startTransform;
 
-   public AIState state;
+   public AIState State {
+      get => _state;
+      set {
+         previousStateBuffer = previousState;
+         previousState = _state;
+         if (previousState == value) previousState = previousStateBuffer;
+         _state = value;
+      }
+   }
+   
    public GameObject target;
+   public GameObject fleeObjectDebug;
 
    public float attackRange = 3.5f;
    public float rotationSpeed = 1f;
    public float attackRate = 1.75f;
    public float wanderRadius = 5f;
+   public float speed = 2f;
+   public float acceleration = 5f;
+   public float stoppingDistance = 0f;
+   public float fleeingSpeed = 4f;
+   public float fleeingAcceleration = 10f;
+   public float waspDetectionRadius = 4f;
 
    public bool wanderMode = false;
    public bool patrolMode = false;
 
    public Transform[] patrolPoints;
+   public LayerMask waspLayer;
    private void Start() {
       agent = GetComponent<NavMeshAgent>();
       agent.stoppingDistance = attackRange;
+      
       GoToWanderPoint();
    }
 
    private void Update() {
       distanceFromPlayer = Vector3.Distance(transform.position, target.transform.position);
       if (distanceFromPlayer <= attackRange) {
-         state = AIState.ATTACKING;
+         State = AIState.ATTACKING;
       }
 
       if (patrolPoints.Length == 0) patrolMode = false;
       if (patrolMode) wanderMode = false;
       if (wanderMode) patrolMode = false;
 
-      if (state != AIState.ATTACKING) attackTimer = 0f;
+      if (State != AIState.ATTACKING) attackTimer = 0f;
+      if (State != AIState.FLEEING) {
+         ResetAgentProperties();
+      }
       
-      switch (state) {
+      DetectWasps();
+      
+      switch (State) {
          case AIState.IDLE:
             Idle();
             break;
@@ -61,7 +95,23 @@ public class LionAI : MonoBehaviour {
          case AIState.ATTACKING:
             Attack();
             break;
+         case AIState.FLEEING:
+            Flee();
+            break;
       }
+   }
+
+   private void ResetAgentProperties() {
+      agent.stoppingDistance = stoppingDistance;
+      agent.speed = speed;
+      agent.acceleration = acceleration;
+      agent.autoBraking = false;
+   }
+
+   private void SetFleeingProperties() {
+      agent.stoppingDistance = 0f;
+      agent.speed = fleeingSpeed;
+      agent.acceleration = fleeingAcceleration;
    }
 
    private Vector3 RandomNavSphere(Vector3 origin, float distance) {
@@ -72,15 +122,26 @@ public class LionAI : MonoBehaviour {
       return navHit.position;
    }
 
+   private void DetectWasps() {
+      waspsDetectedColliders = Physics.OverlapSphere(transform.position, waspDetectionRadius, waspLayer);
+      if ( waspsDetectedColliders.Length > 0) {
+         wasp = waspsDetectedColliders[0].transform;
+         State = AIState.FLEEING;
+      }
+      else {
+         if (State == AIState.FLEEING) State = previousState;
+      }
+   }
+
    private void Idle() {
       if (!patrolMode && !wanderMode) {
          agent.isStopped = true;
          agent.ResetPath();
       }
 
-      if (wanderMode) state = AIState.WANDERING;
+      if (wanderMode) State = AIState.WANDERING;
 
-      if (patrolMode) state = AIState.PATROLING;
+      if (patrolMode) State = AIState.PATROLING;
    }
 
    private void Wander() {
@@ -100,6 +161,20 @@ public class LionAI : MonoBehaviour {
       if (!agent.pathPending && agent.remainingDistance < attackRange) {
          GoToNextPoint();
       }
+   }
+
+   private void Flee() {
+      startTransform = transform;
+      var direction = (wasp.position - transform.position).normalized;
+      transform.rotation = quaternion.LookRotation(-direction, Vector3.up);
+      fleePoint = transform.position + transform.forward * 5f;
+      NavMeshHit hit;
+      NavMesh.SamplePosition(fleePoint, out hit, 5f, 1 << NavMesh.GetAreaFromName("Walkable"));
+      transform.position = startTransform.position;
+      transform.rotation = startTransform.rotation;
+      SetFleeingProperties();
+      agent.SetDestination(hit.position);
+      //Debug.Break();
    }
 
    private void GoToNextPoint() {
@@ -131,19 +206,23 @@ public class LionAI : MonoBehaviour {
 
    private void OnTriggerEnter(Collider other) {
       if (other.CompareTag("Player")) {
-         state = AIState.CHASING;
+         State = AIState.CHASING;
       }
    }
 
    private void OnTriggerStay(Collider other) {
       if (other.CompareTag("Player") && distanceFromPlayer > attackRange+0.5f) {
-         state = AIState.CHASING;
+         State = AIState.CHASING;
       }
    }
 
    private void OnTriggerExit(Collider other) {
       if (other.CompareTag("Player")) {
-         state = AIState.IDLE;
+         State = AIState.IDLE;
       }
+   }
+
+   private void OnDrawGizmos() {
+      Gizmos.DrawSphere(fleePoint, 1f);
    }
 }

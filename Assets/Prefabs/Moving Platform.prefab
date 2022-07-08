@@ -115,7 +115,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &491527194559643387
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d85e9bd7f8ec38d44ab96bf622935eab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 0}
-  travelTime: 10
+  speed: 0
+  changeDirectionDelay: 0
+  waypoints: []
+  isOn: 0
