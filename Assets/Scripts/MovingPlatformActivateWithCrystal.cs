@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MovingPlatformActivateWithCrystal : MovingPlatform {
     private Inventory inventory;
@@ -15,7 +16,6 @@ public class MovingPlatformActivateWithCrystal : MovingPlatform {
         base.Update();
         if (inventory) {
             var hasCorrectCrystal = inventory.reactiveCrystalInfo.Value == activationCrystal;
-            Debug.Log($"Has correct crystal: {hasCorrectCrystal}");
             if (isOn && isMoving && !hasCorrectCrystal) isOn = false;
         }
     }
@@ -43,12 +43,21 @@ public class MovingPlatformActivateWithCrystal : MovingPlatform {
         }
     }
 
-    protected override void OnTriggerEnter(Collider other) {
-        base.OnTriggerEnter(other);
+    private void ActivatePlatform(Collider other) {
         if (other.CompareTag("Player")) {
             inventory = other.GetComponent<Inventory>();
             if (inventory.reactiveCrystalInfo.Value == activationCrystal) isOn = true;
         }
+    }
+
+    protected override void OnTriggerEnter(Collider other) {
+        base.OnTriggerEnter(other);
+        ActivatePlatform(other);
+    }
+
+    protected void OnTriggerStay(Collider other) {
+        base.OnTriggerEnter(other);
+        ActivatePlatform(other);
     }
 
     protected override void OnTriggerExit(Collider other) {

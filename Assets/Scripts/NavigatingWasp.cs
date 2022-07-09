@@ -2,9 +2,10 @@
 using UnityEngine;
 
 public class NavigatingWasp : Wasp {
-    private Transform target;
     private Rigidbody rb;
-    
+
+    public Transform target;
+
     protected void Start() {
         base.Start();
         rb = GetComponent<Rigidbody>();

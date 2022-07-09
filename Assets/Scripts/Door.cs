@@ -142,8 +142,6 @@ public class Door : MonoBehaviour {
                 .setOnComplete(SpawnCrystalParticles);
             areOpen = true;
         }
-
-       
     }
 
     public void Close() {

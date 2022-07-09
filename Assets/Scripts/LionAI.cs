@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UniRx;
 using Unity.Mathematics;
 using UnityEngine;
@@ -125,8 +126,10 @@ public class LionAI : MonoBehaviour {
    private void DetectWasps() {
       waspsDetectedColliders = Physics.OverlapSphere(transform.position, waspDetectionRadius, waspLayer);
       if ( waspsDetectedColliders.Length > 0) {
-         wasp = waspsDetectedColliders[0].transform;
-         State = AIState.FLEEING;
+         wasp = waspsDetectedColliders
+            .First(_wasp => _wasp.GetComponentInParent<NavigatingWasp>() != null).transform.parent;
+         var waspScript = wasp.GetComponent<NavigatingWasp>();
+         if ( waspScript.target == transform) State = AIState.FLEEING;
       }
       else {
          if (State == AIState.FLEEING) State = previousState;
@@ -174,7 +177,6 @@ public class LionAI : MonoBehaviour {
       transform.rotation = startTransform.rotation;
       SetFleeingProperties();
       agent.SetDestination(hit.position);
-      //Debug.Break();
    }
 
    private void GoToNextPoint() {
