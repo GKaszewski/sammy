@@ -8,6 +8,8 @@ TagManager:
   - Door
   - Lion
   - MovingPlatform
+  - NavigatingWasp
+  - Ground
   layers:
   - Default
   - TransparentFX

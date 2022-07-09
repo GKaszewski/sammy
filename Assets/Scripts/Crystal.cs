@@ -1,14 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum CrystalColor {
-    RED,
-    BLUE,
-    GREEN,
-    YELLOW,
-    ORANGE,
-    PURPLE,
+    RED = 0,
+    BLUE = 1,
+    GREEN = 2,
+    YELLOW = 3,
+    ORANGE = 4,
+    PURPLE = 5,
     MULTI,
     NONE
 }
@@ -31,6 +33,7 @@ public class Crystal : BaseCrystal {
     }
 
     public void Die() {
+        AudioManager.instance.Play("crystal break");
         Destroy(gameObject);
     }
 
@@ -83,5 +86,11 @@ public class Crystal : BaseCrystal {
         }
 
         return CrystalColor.NONE;
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.collider.CompareTag("Ground")) {
+            AudioManager.instance.Play("crystal bounce");
+        }
     }
 }

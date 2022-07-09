@@ -38,8 +38,6 @@ public class LionAI : MonoBehaviour {
    }
    
    public GameObject target;
-   public GameObject fleeObjectDebug;
-
    public float attackRange = 3.5f;
    public float rotationSpeed = 1f;
    public float attackRate = 1.75f;
