@@ -171,6 +171,8 @@ GameObject:
   - component: {fileID: 266553929040427445}
   - component: {fileID: 4759722207939493}
   - component: {fileID: 4759722207939501}
+  - component: {fileID: 3484927581355335137}
+  - component: {fileID: 3702423925355562062}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -208,7 +210,7 @@ Animator:
   m_GameObject: {fileID: 267550637794264221}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 076d22bfc1a02fc4889e7d47a4e89dc9, type: 3}
-  m_Controller: {fileID: 9100000, guid: 5e3d72b14ac2b7f4ea431469dd21f940, type: 2}
+  m_Controller: {fileID: 9100000, guid: f2f8773cd2ee9ea4988d80dff0114100, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -250,6 +252,7 @@ MonoBehaviour:
     value: 7
   crystalPrefab: {fileID: 7637454883208682958, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
   crystalSpawnPosition: {fileID: 266553927681651702}
+  previousColor: 0
 --- !u!114 &266553929040427445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,20 +265,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71003a6ccfedab74ebef39ef85bb5839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  intent: {x: 0, y: 0, z: 0}
   animSpeed: 0
   walkSpeed: 5
   runSpeed: 7
   jumpForce: 5
+  slideSpeed: 12
   rotationSpeed: 150
   quickRotationTime: 0.2
   maxStamina: 10000
-  runKey: 304
-  quickTurnKey: 308
   playerHeight: 2
   feet: {fileID: 2156315319361977011}
   groundDetectionRadius: 0.2
   input: {x: 0, y: 0}
   isJumping: 0
+  ccIsGrounded: 0
+  isRunning: 0
   cameraParent: {fileID: 0}
 --- !u!143 &4759722207939493
 CharacterController:
@@ -290,7 +295,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 1.4
   m_Radius: 0.32
-  m_SlopeLimit: 45
+  m_SlopeLimit: 40
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
@@ -308,7 +313,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waspSpawner: {fileID: 1278854138}
-  waspPrefab: {fileID: 6695637812481996446, guid: cf319e2dcc25c094ca32d5cdb7438cc7, type: 3}
+  waspPrefab: {fileID: 1466485618119808524, guid: 0bb88fb0baec5864c85fa103b017803f, type: 3}
+--- !u!114 &3484927581355335137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267550637794264221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0175c6e203545339ba423b5d74aeca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 4
+--- !u!114 &3702423925355562062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267550637794264221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5784c55e49f4cf0a7fd96dcfeec697d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3451566357476000118
 GameObject:
   m_ObjectHideFlags: 0
