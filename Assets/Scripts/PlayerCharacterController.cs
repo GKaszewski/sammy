@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerCharacterController : MonoBehaviour {
@@ -8,7 +7,8 @@ public class PlayerCharacterController : MonoBehaviour {
     private Vector3 slopeDirection;
     private Vector3 camF;
     private Vector3 camR;
-    private Vector3 intent;
+    [HideInInspector]
+    public Vector3 intent;
     private Vector3 velocityXZ;
     private Vector3 velocity;
     private Vector3 hitNormal;
@@ -16,7 +16,7 @@ public class PlayerCharacterController : MonoBehaviour {
     private float currentStamina = 0f;
     private bool canRun = false;
     private bool isSliding = false;
-    private bool ccIsGrounded = false;
+    private bool intentToJump = false;
 
     private const float GRAVITY = 10;
 
@@ -28,14 +28,18 @@ public class PlayerCharacterController : MonoBehaviour {
     public float rotationSpeed = 5f;
     public float quickRotationTime = 0.2f;
     public float maxStamina = 100f;
-    public KeyCode runKey;
-    public KeyCode quickTurnKey;
     public float playerHeight = 2f;
     public Transform feet;
     public float groundDetectionRadius = 0.1f;
     [HideInInspector] public Vector2 input;
     public bool isJumping = false;
+    [HideInInspector]
+    public bool ccIsGrounded = false;
+    public bool isGrounded = false;
+    [HideInInspector]
+    public bool isRunning = false;
     public Transform cameraParent;
+    public LayerMask groundDetectionLayerMask;
 
     private void Start() {
         anim = GetComponent<Animator>();
@@ -56,6 +60,7 @@ public class PlayerCharacterController : MonoBehaviour {
         RestartStaminaWithKey();
         HandleAnimatorSpeed();
 
+        CheckGround();
         CalculateMovement();
         ApplyGravity();
         HandleJumping();
@@ -76,8 +81,13 @@ public class PlayerCharacterController : MonoBehaviour {
         Debug.DrawRay(transform.position, intent, Color.magenta);
     }
 
+    private void CheckGround() {
+        var colliders = Physics.OverlapSphere(feet.position, groundDetectionRadius, groundDetectionLayerMask);
+        isGrounded = colliders.Length > 0;
+    }
+
     private void ApplyGravity() {
-        if (ccIsGrounded) velocity.y = -0.5f;
+        if (isGrounded && !intentToJump) velocity.y = -0.5f;
         else velocity.y -= GRAVITY * Time.deltaTime;
         velocity.y = Mathf.Clamp(velocity.y, -10, jumpForce);
     }
@@ -91,7 +101,7 @@ public class PlayerCharacterController : MonoBehaviour {
     }
 
     private void CheckSliding() {
-        isSliding = Vector3.Angle(Vector3.up, hitNormal) > cc.slopeLimit;
+        isSliding = Vector3.Angle(Vector3.up, hitNormal) > cc.slopeLimit && isGrounded;
     }
 
     private void HandleCamera() {
@@ -104,9 +114,9 @@ public class PlayerCharacterController : MonoBehaviour {
     }
 
     private void HandleJumping() {
-        isJumping = velocity.y > 0 && !ccIsGrounded;
-        if (Input.GetButtonDown("Jump") && ccIsGrounded) {
-            anim.SetTrigger("Jump");
+        isJumping = velocity.y > 0 && !isGrounded;
+        intentToJump = Input.GetButton("Jump");
+        if (Input.GetButtonDown("Jump") && isGrounded) {
             velocity.y = jumpForce;
         }
     }
@@ -144,11 +154,13 @@ public class PlayerCharacterController : MonoBehaviour {
 
     private void HandleRunning() {
         if (canRun) {
+            isRunning = true;
             currentSpeed = runSpeed;
             animSpeed = 1f;
             currentStamina -= Time.time * Time.deltaTime;
         }
         else {
+            isRunning = false;
             currentSpeed = walkSpeed;
             animSpeed = 0.6f;
         }
