@@ -5,9 +5,8 @@ using UnityEngine;
 public class ScreenshotTaker : MonoBehaviour {
     public string defaultPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
     public string screenshotPath = "screenshots";
-    public KeyCode screenshotKey;
     private void Update() {
-        if (Input.GetKeyDown(screenshotKey)) {
+        if (Input.GetButtonDown("Screenshot")) {
             var dirPath = $"{defaultPath}\\{screenshotPath}";
             if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
             var date = DateTime.UtcNow.ToString("o");

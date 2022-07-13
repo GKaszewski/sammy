@@ -17,12 +17,21 @@ public class PlayerUIManager : MonoBehaviour {
       public GameObject heartPrefab;
       public GameObject heartsList;
 
+      public TMP_Text platformVersionText;
+
       private void Start() {
             currentPointsText.text = $"0";
             maxPointsText.text = $"{GameManager.Instance.maxPoints}";
             HandleCrystal(CrystalColor.NONE);
             GameManager.Instance.eventManager.OnCrystalChange += HandleCrystal;
             GameManager.Instance.eventManager.OnPointPickup += HandlePoints;
+
+            var projectName = Application.productName;
+            var platform = Application.platform.ToString();
+            var version = Application.version;
+
+            platformVersionText.richText = true;
+            platformVersionText.text = $"<b>{projectName}</b> - {platform} - {version}";
       }
 
       private void HandlePoints(int points) {
