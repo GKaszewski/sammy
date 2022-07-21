@@ -70,11 +70,12 @@ public class LionAI : MonoBehaviour {
       if (patrolPoints.Length == 0) patrolMode = false;
       if (patrolMode) wanderMode = false;
       if (wanderMode) patrolMode = false;
-
-      if (State != AIState.ATTACKING) attackTimer = 0f;
+      
       if (State != AIState.FLEEING) {
          ResetAgentProperties();
       }
+      
+      attackTimer += Time.deltaTime;
       
       DetectWasps();
       
@@ -194,11 +195,11 @@ public class LionAI : MonoBehaviour {
    }
 
    private void Attack() {
-      attackTimer += Time.deltaTime;
       if (attackTimer > attackRate) DoAttack();
    }
 
    private void DoAttack() {
+      GameManager.Instance.eventManager.LionAttack();
       var playerHealth = target.GetComponent<PlayerHealth>();
       if (playerHealth) playerHealth.TakeDamage();
       attackTimer = 0f;
