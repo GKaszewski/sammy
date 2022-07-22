@@ -1,7 +1,7 @@
+using System;
 using UnityEngine;
 
 public class PlayerCharacterController : MonoBehaviour {
-    private Animator anim;
     private CharacterController cc;
     private RaycastHit slopeHit;
     private Vector3 slopeDirection;
@@ -17,10 +17,10 @@ public class PlayerCharacterController : MonoBehaviour {
     private bool canRun = false;
     private bool isSliding = false;
     private bool intentToJump = false;
+    private bool won = false;
 
     private const float GRAVITY = 10;
-
-    [Range(0, 1f)] public float animSpeed = 0.0f;
+    
     public float walkSpeed = 5f;
     public float runSpeed = 7f;
     public float jumpForce = 5f;
@@ -42,15 +42,22 @@ public class PlayerCharacterController : MonoBehaviour {
     public LayerMask groundDetectionLayerMask;
 
     private void Start() {
-        anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
         currentSpeed = walkSpeed;
         currentStamina = maxStamina;
+        GameManager.Instance.eventManager.OnWin += OnWin;
+    }
+
+    private void OnDisable() {
+        GameManager.Instance.eventManager.OnWin -= OnWin;
+    }
+
+    private void OnWin() {
+        won = true;
     }
 
     private void Update() {
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        anim.SetFloat("Speed", animSpeed);
         ccIsGrounded = cc.isGrounded;
         HandleCamera();
         CheckRun();
@@ -58,12 +65,12 @@ public class PlayerCharacterController : MonoBehaviour {
         HandleQuickTurn();
 
         RestartStaminaWithKey();
-        HandleAnimatorSpeed();
 
         CheckGround();
         CalculateMovement();
         ApplyGravity();
         HandleJumping();
+        if (won) return;
         if (isSliding) {
             velocity.x += ((1f - hitNormal.y) * hitNormal.x) * slideSpeed;
             velocity.z += ((1f - hitNormal.y) * hitNormal.z) * slideSpeed;
@@ -73,7 +80,6 @@ public class PlayerCharacterController : MonoBehaviour {
         else {
             cc.Move(velocity * Time.deltaTime);
         }
-        
         CheckSliding();
 
         if (input.magnitude > 0 && !isJumping) transform.Rotate(Vector3.up * input.x * rotationSpeed * Time.deltaTime);
@@ -138,14 +144,7 @@ public class PlayerCharacterController : MonoBehaviour {
             QuickTurn(90f);
         }
     }
-
-    private void HandleAnimatorSpeed() {
-        if (input.y != 0 && !canRun)
-            animSpeed = 0.6f;
-        else if (input.y == 0 && !canRun)
-            animSpeed = 0f;
-    }
-
+    
     private void RestartStaminaWithKey() {
         if (Input.GetKey(KeyCode.R)) RestartStamina();
     }
@@ -156,13 +155,11 @@ public class PlayerCharacterController : MonoBehaviour {
         if (canRun) {
             isRunning = true;
             currentSpeed = runSpeed;
-            animSpeed = 1f;
             currentStamina -= Time.time * Time.deltaTime;
         }
         else {
             isRunning = false;
             currentSpeed = walkSpeed;
-            animSpeed = 0.6f;
         }
     }
 

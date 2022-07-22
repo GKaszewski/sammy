@@ -11,6 +11,7 @@ TagManager:
   - NavigatingWasp
   - Ground
   - ChaseLight
+  - WinPad
   layers:
   - Default
   - TransparentFX

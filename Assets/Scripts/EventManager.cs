@@ -8,6 +8,7 @@ public class EventManager {
     public event Action<LionAI, AIState> OnLionAIStateChange;
     public event Action<LionAI> OnLionSpawn;
     public event Action<LionAI> OnLionDestroy;
+    public event Action OnWin;
 
     public void PickCrystalUp(CrystalColor color) => OnCrystalPickup?.Invoke(color);
     public void PickPointUp(int points) => OnPointPickup?.Invoke(points);
@@ -16,4 +17,5 @@ public class EventManager {
     public void LionAIStateChange(LionAI ai, AIState state) => OnLionAIStateChange?.Invoke(ai, state);
     public void SpawnLion(LionAI ai) => OnLionSpawn?.Invoke(ai);
     public void DestroyLion(LionAI ai) => OnLionDestroy?.Invoke(ai);
+    public void Win() => OnWin?.Invoke();
 }
