@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6904513831316602727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6904513831316602721}
+  - component: {fileID: 6904513831316602726}
+  - component: {fileID: 6904513831316602720}
+  - component: {fileID: 6904513831316602722}
+  - component: {fileID: 6904513831316602723}
+  - component: {fileID: 6904513831316602733}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6904513831316602721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904513831316602727}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6904513831316602726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904513831316602727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59bdbf0d275544caa4a5974c9f80bcd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultPath: C:\Users\gabri\Desktop
+  screenshotPath: screenshots
+--- !u!114 &6904513831316602720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904513831316602727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdb98946c9f64b91b676051ba67fd0a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6904513831316602722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904513831316602727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f146aa2b6db34f9fb853e968ab83bbaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerUIManager: {fileID: 6904513831316602723}
+  aiManager: {fileID: 0}
+  maxPoints: 240
+--- !u!114 &6904513831316602723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904513831316602727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f84260b1b77845bc816f814d70e84beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentCrystal: 7
+  currentCrystalImage: {fileID: 0}
+  crystalSprites:
+  - {fileID: -317771678647371661, guid: 0e1f4f669f951ae458caf7bf036d3ee5, type: 3}
+  - {fileID: 8642771837104280003, guid: 0e1f4f669f951ae458caf7bf036d3ee5, type: 3}
+  - {fileID: -6985117363303071740, guid: 0e1f4f669f951ae458caf7bf036d3ee5, type: 3}
+  - {fileID: -1762573714345474896, guid: 0e1f4f669f951ae458caf7bf036d3ee5, type: 3}
+  - {fileID: 11442893378838041, guid: 0e1f4f669f951ae458caf7bf036d3ee5, type: 3}
+  - {fileID: 9061651696941551919, guid: 0e1f4f669f951ae458caf7bf036d3ee5, type: 3}
+  - {fileID: 21300000, guid: a2e53f8bf792a07428d9883e8c6ae449, type: 3}
+  currentPointsText: {fileID: 0}
+  maxPointsText: {fileID: 0}
+  heartPrefab: {fileID: 4580565258298077245, guid: 5ea9458c621ba154c821f082ca3d637e, type: 3}
+  heartsList: {fileID: 0}
+  platformVersionText: {fileID: 0}
+--- !u!114 &6904513831316602733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904513831316602727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122113727ea04bdcb1609f31b056f36e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lions: []
+  chaseLight: {fileID: 0}
