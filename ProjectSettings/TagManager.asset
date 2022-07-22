@@ -10,6 +10,7 @@ TagManager:
   - MovingPlatform
   - NavigatingWasp
   - Ground
+  - ChaseLight
   layers:
   - Default
   - TransparentFX

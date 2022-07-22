@@ -34,6 +34,7 @@ public class LionAI : MonoBehaviour {
          previousState = _state;
          if (previousState == value) previousState = previousStateBuffer;
          _state = value;
+         GameManager.Instance.eventManager.LionAIStateChange(this, value);
       }
    }
    
@@ -54,11 +55,16 @@ public class LionAI : MonoBehaviour {
 
    public Transform[] patrolPoints;
    public LayerMask waspLayer;
+
    private void Start() {
+      GameManager.Instance.eventManager.SpawnLion(this);
       agent = GetComponent<NavMeshAgent>();
       agent.stoppingDistance = attackRange;
-      
       GoToWanderPoint();
+   }
+
+   private void OnDestroy() {
+      GameManager.Instance.eventManager.DestroyLion(this);
    }
 
    private void Update() {
@@ -74,7 +80,7 @@ public class LionAI : MonoBehaviour {
       if (State != AIState.FLEEING) {
          ResetAgentProperties();
       }
-      
+
       attackTimer += Time.deltaTime;
       
       DetectWasps();

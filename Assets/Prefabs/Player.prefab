@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 74098430}
   - component: {fileID: 74098431}
+  - component: {fileID: 153456662}
   m_Layer: 3
   m_Name: ChaseLight
-  m_TagString: Untagged
+  m_TagString: ChaseLight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,6 +95,26 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &153456662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74098429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &1278854137
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,8 +301,12 @@ MonoBehaviour:
   input: {x: 0, y: 0}
   isJumping: 0
   ccIsGrounded: 0
+  isGrounded: 0
   isRunning: 0
   cameraParent: {fileID: 0}
+  groundDetectionLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!143 &4759722207939493
 CharacterController:
   m_ObjectHideFlags: 0
@@ -496,6 +521,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 076d22bfc1a02fc4889e7d47a4e89dc9, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1551100667913033475, guid: 076d22bfc1a02fc4889e7d47a4e89dc9, type: 3}
+      propertyPath: m_CastShadows
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2115344142880458265, guid: 076d22bfc1a02fc4889e7d47a4e89dc9, type: 3}
       propertyPath: m_Layer

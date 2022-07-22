@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 
     public EventManager eventManager;
     public PlayerUIManager playerUIManager;
+    public AIManager aiManager;
 
     public int maxPoints;
 
