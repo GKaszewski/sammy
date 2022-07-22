@@ -744,6 +744,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6844165762786855088, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: data
+      value: Sammy needs to collect all the points to unlock the door.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6844165762786855088, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: showInfoOnStart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6844165762786855089, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6844165763114890713, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
       propertyPath: m_Name
       value: Main UI
@@ -830,6 +842,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6844165763114890717, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6844165763181264834, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6844165763181264834, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

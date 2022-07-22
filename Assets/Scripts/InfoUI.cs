@@ -16,11 +16,17 @@ public class InfoUI : MonoBehaviour {
   public float showMovementTime = 1.25f;
   public float hideMovementTime = 0.75f;
   public float showTime = 4f;
+  public float delayBeforeShowing = 0.5f;
 
   public bool showInfo = false;
+  public bool showInfoOnStart = false;
 
-  private void Start() {
+  private async void Start() {
     if (!showInfo) Hide();
+    if (showInfoOnStart) {
+      await Task.Delay(TimeSpan.FromSeconds(delayBeforeShowing));
+      Show();
+    }
     infoText.text = data;
   }
 
