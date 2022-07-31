@@ -80,7 +80,7 @@ public class PlayerCharacterController : MonoBehaviour {
         else {
             cc.Move(velocity * Time.deltaTime);
         }
-        CheckSliding();
+        //CheckSliding();
 
         if (input.magnitude > 0 && !isJumping) transform.Rotate(Vector3.up * input.x * rotationSpeed * Time.deltaTime);
 
