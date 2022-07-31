@@ -85,11 +85,11 @@ public class PlayerCharacterController : MonoBehaviour {
         if (input.magnitude > 0 && !isJumping) transform.Rotate(Vector3.up * input.x * rotationSpeed * Time.deltaTime);
 
         Debug.DrawRay(transform.position, intent, Color.magenta);
+        Debug.DrawRay(feet.position, Vector3.down*groundDetectionRadius, Color.green);
     }
 
     private void CheckGround() {
-        var colliders = Physics.OverlapSphere(feet.position, groundDetectionRadius, groundDetectionLayerMask);
-        isGrounded = colliders.Length > 0;
+        isGrounded = Physics.Raycast(feet.position, Vector3.down, groundDetectionRadius, groundDetectionLayerMask);
     }
 
     private void ApplyGravity() {
