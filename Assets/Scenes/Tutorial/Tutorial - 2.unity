@@ -425,7 +425,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ab8149ec4775284bada96c1b85b4a09, type: 2}
+  - {fileID: 2100000, guid: 8e7730cd12388b0438c9c732a0b7abbb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -804,7 +804,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a4b62a69d54e80347bd546999c6d4b9e, type: 2}
+  - {fileID: 2100000, guid: 8db7747ab64e02941b6d202fab28f4c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5514,6 +5514,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 266553929040427445, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+      propertyPath: jumpForce
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 266553929040427445, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
       propertyPath: maxStamina
       value: 0
       objectReference: {fileID: 0}
@@ -6070,7 +6074,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ab8149ec4775284bada96c1b85b4a09, type: 2}
+  - {fileID: 2100000, guid: 8e7730cd12388b0438c9c732a0b7abbb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

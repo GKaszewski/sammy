@@ -528,7 +528,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-144726
+  m_Name: pb_Mesh37504
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -961,7 +961,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5e88a93148f69984e968ecc92408960f, type: 2}
+  - {fileID: 2100000, guid: 1638d34981adb6a4ab3e33f2f29134f1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2475,7 +2475,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a4b62a69d54e80347bd546999c6d4b9e, type: 2}
+  - {fileID: 2100000, guid: 8db7747ab64e02941b6d202fab28f4c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3772,6 +3772,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 266553929040427445, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+      propertyPath: jumpForce
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 266553929040427445, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
       propertyPath: maxStamina
       value: 0
       objectReference: {fileID: 0}
@@ -4267,7 +4271,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ab8149ec4775284bada96c1b85b4a09, type: 2}
+  - {fileID: 2100000, guid: 8db7747ab64e02941b6d202fab28f4c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7901,7 +7905,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1557319338}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: -2.25}
+  m_LocalPosition: {x: 1, y: 0.5, z: -2.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7976,7 +7980,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a4b62a69d54e80347bd546999c6d4b9e, type: 2}
+  - {fileID: 2100000, guid: 8db7747ab64e02941b6d202fab28f4c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8387,7 +8391,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-88698
+  m_Name: pb_Mesh37488
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
