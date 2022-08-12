@@ -6,6 +6,7 @@ public class Inventory : MonoBehaviour {
     public int points;
     public int wasps = 10;
     public ReactiveProperty<CrystalColor> reactiveCrystalInfo;
+    public WaspType currentWaspType;
 
     public GameObject crystalPrefab;
     public Transform crystalSpawnPosition;
@@ -67,5 +68,14 @@ public class Inventory : MonoBehaviour {
         }
         GameManager.Instance.eventManager.PickCrystalUp(reactiveCrystalInfo.Value);
         newCrystal.Die();
+    }
+
+    public void DropCrystal() {
+        if (reactiveCrystalInfo.Value == CrystalColor.NONE) return;
+        var spawnedCrystal = SpawnCrystal(reactiveCrystalInfo.Value, crystalSpawnPosition.position + (transform.forward * 2f));
+        spawnedCrystal.player = transform;
+        spawnedCrystal.ApplyForceUp();
+        AudioManager.instance.Play("crystal spawn");
+        reactiveCrystalInfo.Value = CrystalColor.NONE;
     }
 }

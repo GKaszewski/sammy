@@ -1874,6 +1874,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3346189219318387857, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3346189219318387857, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3346189219318387857, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3346189219318387857, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437947994895746194, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437947994895746194, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437947994895746194, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437947994895746194, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6844165762786855088, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
       propertyPath: data
       value: Sammy needs to collect all the points to unlock the door.
@@ -1993,6 +2025,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &504172361 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3601230068780037931, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+  m_PrefabInstance: {fileID: 504172359}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f84260b1b77845bc816f814d70e84beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &504172362 stripped
@@ -2276,6 +2319,10 @@ PrefabInstance:
       propertyPath: maxPoints
       value: 780
       objectReference: {fileID: 0}
+    - target: {fileID: 6904513831316602722, guid: 7dcb2a79570fe434caedad3036b790b4, type: 3}
+      propertyPath: playerUIManager
+      value: 
+      objectReference: {fileID: 504172361}
     - target: {fileID: 6904513831316602723, guid: 7dcb2a79570fe434caedad3036b790b4, type: 3}
       propertyPath: heartsList
       value: 
@@ -3677,6 +3724,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2497657178125112273, guid: 3d06549875b191e42ba0141aa4783e8e, type: 3}
   m_PrefabInstance: {fileID: 937231081}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &943907299 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6844165761539982997, guid: 4c8fb3c456a928f47927595cdf851548, type: 3}
+  m_PrefabInstance: {fileID: 504172359}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &948102770
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4427,6 +4485,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2497657178125112273, guid: 3d06549875b191e42ba0141aa4783e8e, type: 3}
   m_PrefabInstance: {fileID: 1079381149}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1085274169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1085274170}
+  m_Layer: 0
+  m_Name: Spawnpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1085274170
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085274169}
+  m_LocalRotation: {x: -0.05649073, y: 0.6723018, z: -0.051932048, w: -0.73628944}
+  m_LocalPosition: {x: -1.8476791, y: 1, z: -0.6486573}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1094991978
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4434,6 +4523,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 74098429, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 261795453323248583, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -4498,6 +4591,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3484927581355335137, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+      propertyPath: livesText
+      value: 
+      objectReference: {fileID: 943907299}
+    - target: {fileID: 3484927581355335137, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+      propertyPath: spawnpoint
+      value: 
+      objectReference: {fileID: 1085274170}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
 --- !u!1001 &1097354053

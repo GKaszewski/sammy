@@ -6,11 +6,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerUIManager : MonoBehaviour {
+      private Inventory inventory;
       public CrystalColor currentCrystal = CrystalColor.NONE;
       
       public Image currentCrystalImage;
       [Tooltip("RED, BLUE, GREEN, YELLOW, ORANGE, PURPLE, ALL")]
-      public List<Sprite> crystalSprites = new List<Sprite>();
+      public List<Sprite> crystalSprites = new();
+
+      [Tooltip("Basic, Navigating, Three")]
+      public List<Sprite> waspsAvatars = new();
 
       public TextMeshProUGUI currentPointsText;
       public TextMeshProUGUI maxPointsText;
@@ -18,8 +22,13 @@ public class PlayerUIManager : MonoBehaviour {
       public GameObject heartsList;
 
       public TMP_Text platformVersionText;
+      public GameObject waspInfo;
+      public TMP_Text waspCount;
+      public Image waspAvatar;
 
       private void Start() {
+            inventory = FindObjectOfType<Inventory>();
+            
             currentPointsText.text = $"0";
             maxPointsText.text = $"{GameManager.Instance.maxPoints}";
             HandleCrystal(CrystalColor.NONE);
@@ -32,6 +41,34 @@ public class PlayerUIManager : MonoBehaviour {
 
             platformVersionText.richText = true;
             platformVersionText.text = $"<b>{projectName}</b> - {platform} - {version}";
+
+            UpdateWaspUI();
+      }
+
+      public void UpdateWaspUI() {
+            waspCount.text = inventory.wasps.ToString();
+            SetWaspAvatar();
+      }
+
+      private void Update() {
+            waspInfo.SetActive(inventory.wasps != 0);
+            waspCount.text = inventory.wasps.ToString();
+      }
+
+      public void SetWaspAvatar() {
+            switch (inventory.currentWaspType) {
+                  case WaspType.BASIC:
+                        waspAvatar.sprite = waspsAvatars[0];
+                        break;
+                  case WaspType.NAVIGATING:
+                        waspAvatar.sprite = waspsAvatars[1];
+                        break;
+                  case WaspType.THREE:
+                        waspAvatar.sprite = waspsAvatars[2];
+                        break;
+                  default:
+                        throw new ArgumentOutOfRangeException();
+            }
       }
 
       private void HandlePoints(int points) {

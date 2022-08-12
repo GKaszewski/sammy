@@ -1,10 +1,31 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : Health {
+    private PlayerCharacterController playerController;
+    private Inventory inventory;
+    public int lives = 5;
+    public int maxLives = 5;
+    public int maxHealth = 4;
+    public Transform spawnpoint;
+
+    public TMP_Text livesText;
+
+    public float pushForce = 2f;
+    
     private void Start() {
-        for (var i = 0; i < health; i++) {
-            AddHeartToUI();
+        inventory = GetComponent<Inventory>();
+        playerController = GetComponent<PlayerCharacterController>();
+        ResetLives();
+    }
+
+    private void Update() {
+        livesText.text = lives.ToString();
+        if (lives <= 0) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            ResetLives();
         }
     }
 
@@ -24,15 +45,31 @@ public class PlayerHealth : Health {
         Destroy(heart.gameObject);
     }
 
+    private void ResetLives() {
+        lives = maxLives;
+        ResetHealth();
+    }
+
+    private void ResetHealth() {
+        health = maxHealth;
+        for (var i = 0; i < health; i++) {
+            AddHeartToUI();
+        }
+    }
+
+    public void Push(Vector3 direction) {
+        playerController.Knockback(direction * pushForce);
+    }
+
     public override void TakeDamage(int damage = 1){
         base.TakeDamage(damage);
-        Debug.Log("took damage");
         RemoveHeartFromUI();
-        if(health <= 0){
-            //GameManager.Save();
-            //SceneManager.LoadSceneAsync(2);
-            Debug.Log("Game Over");
-            gameObject.SetActive(false);
+        if (health <= 0) {
+            ResetHealth();
+            inventory.wasps = 0;
+            inventory.DropCrystal();
+            lives--;
+            transform.position = spawnpoint.position;
         }
     }
 }

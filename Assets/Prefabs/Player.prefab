@@ -195,6 +195,7 @@ GameObject:
   - component: {fileID: 3484927581355335137}
   - component: {fileID: 3702423925355562062}
   - component: {fileID: 6880751394884906192}
+  - component: {fileID: 8007232017308761589}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -272,6 +273,7 @@ MonoBehaviour:
   wasps: 10
   reactiveCrystalInfo:
     value: 7
+  currentWaspType: 0
   crystalPrefab: {fileID: 7637454883208682958, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
   crystalSpawnPosition: {fileID: 266553927681651702}
   previousColor: 0
@@ -378,6 +380,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitTime: 2.5
+--- !u!114 &8007232017308761589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267550637794264221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54d04e80f7c093e46baf9537c241c154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3451566357476000118
 GameObject:
   m_ObjectHideFlags: 0

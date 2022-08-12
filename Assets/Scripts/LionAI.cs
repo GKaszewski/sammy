@@ -132,7 +132,11 @@ public class LionAI : MonoBehaviour {
       waspsDetectedColliders = Physics.OverlapSphere(transform.position, waspDetectionRadius, waspLayer);
       if ( waspsDetectedColliders.Length > 0) {
          wasp = waspsDetectedColliders
-            .First(_wasp => _wasp.GetComponentInParent<NavigatingWasp>() != null).transform.parent;
+            .FirstOrDefault(_wasp => _wasp.GetComponentInParent<NavigatingWasp>() != null)?.transform.parent;
+         if (!wasp) {
+            if (State == AIState.FLEEING) State = previousState;
+            return;
+         }
          var waspScript = wasp.GetComponent<NavigatingWasp>();
          if ( waspScript.target == transform) State = AIState.FLEEING;
       }
@@ -207,7 +211,10 @@ public class LionAI : MonoBehaviour {
    private void DoAttack() {
       GameManager.Instance.eventManager.LionAttack();
       var playerHealth = target.GetComponent<PlayerHealth>();
-      if (playerHealth) playerHealth.TakeDamage();
+      if (playerHealth) {
+         playerHealth.TakeDamage();
+         playerHealth.Push(transform.forward);
+      }
       attackTimer = 0f;
    } 
 

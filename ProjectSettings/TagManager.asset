@@ -12,6 +12,7 @@ TagManager:
   - Ground
   - ChaseLight
   - WinPad
+  - Wasp pickup
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - UI
   - Wasps
   - Lions
-  - 
+  - Pickups
   - 
   - 
   - 

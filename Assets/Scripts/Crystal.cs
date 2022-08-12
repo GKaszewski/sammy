@@ -43,6 +43,12 @@ public class Crystal : BaseCrystal {
         StartCoroutine(FixRotation());
     }
 
+    public void ApplyForceUp() {
+        if (!rb) rb = GetComponent<Rigidbody>();
+        rb.AddForce(player.up * force, ForceMode.Impulse);
+        StartCoroutine(FixRotation());
+    }
+
     private void ResetRotation() {
         LeanTween.cancel(gameObject);
         LeanTween.rotateLocal(gameObject, Vector3.zero, rotationTime).setOnComplete(() => {

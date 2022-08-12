@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerCharacterController : MonoBehaviour {
@@ -18,6 +19,7 @@ public class PlayerCharacterController : MonoBehaviour {
     private bool isSliding = false;
     private bool intentToJump = false;
     private bool won = false;
+    private bool isKnocked = false;
 
     private const float GRAVITY = 10;
     
@@ -28,16 +30,20 @@ public class PlayerCharacterController : MonoBehaviour {
     public float rotationSpeed = 5f;
     public float quickRotationTime = 0.2f;
     public float maxStamina = 100f;
-    public float playerHeight = 2f;
+    public float knockbackTime = 0.15f;
     public Transform feet;
     public float groundDetectionRadius = 0.1f;
     [HideInInspector] public Vector2 input;
     public bool isJumping = false;
+
     [HideInInspector]
     public bool ccIsGrounded = false;
+
     public bool isGrounded = false;
+
     [HideInInspector]
     public bool isRunning = false;
+
     public Transform cameraParent;
     public LayerMask groundDetectionLayerMask;
 
@@ -99,6 +105,7 @@ public class PlayerCharacterController : MonoBehaviour {
     }
 
     private void CalculateMovement() {
+        if (isKnocked) return;
         intent = camF * input.y + camR * input.x;
         velocityXZ = velocity;
         velocityXZ.y = 0;
@@ -176,5 +183,15 @@ public class PlayerCharacterController : MonoBehaviour {
 
     private void OnControllerColliderHit(ControllerColliderHit hit) {
         hitNormal = hit.normal;
+    }
+
+    public void Knockback(Vector3 direction) {
+        isKnocked = true;
+        velocity = direction;
+        cc.Move(direction);
+        Task.Delay(TimeSpan.FromSeconds(knockbackTime)).ContinueWith((task) => {
+            isKnocked = false;
+        });
+
     }
 }

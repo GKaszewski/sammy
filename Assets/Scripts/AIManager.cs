@@ -17,6 +17,8 @@ public class AIManager : MonoBehaviour {
     private void OnLionDestroy(LionAI obj) {
         if (!lions.Contains(obj)) return;
         lions.Remove(obj);
+        
+        if(lions.Count == 0) chaseLight.SetActive(false);
     }
 
     private void OnLionSpawn(LionAI obj) {
