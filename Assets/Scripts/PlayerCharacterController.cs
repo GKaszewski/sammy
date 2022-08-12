@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using TouchControlsKit;
 using UnityEngine;
 
 public class PlayerCharacterController : MonoBehaviour {
@@ -63,7 +64,15 @@ public class PlayerCharacterController : MonoBehaviour {
     }
 
     private void Update() {
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (TCKInput.GetControllerActive("joystick")) {
+            input = new Vector2(TCKInput.GetAxis("joystick", EAxisType.Horizontal),
+                TCKInput.GetAxis("joystick", EAxisType.Vertical));
+        }
+        else {
+            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        }
+
+        
         ccIsGrounded = cc.isGrounded;
         HandleCamera();
         CheckRun();
@@ -128,8 +137,8 @@ public class PlayerCharacterController : MonoBehaviour {
 
     private void HandleJumping() {
         isJumping = velocity.y > 0 && !isGrounded;
-        intentToJump = Input.GetButton("Jump");
-        if (Input.GetButtonDown("Jump") && isGrounded) {
+        intentToJump = Input.GetButton("Jump") || TCKInput.GetAction("Jump", EActionEvent.Press);
+        if (intentToJump && isGrounded) {
             velocity.y = jumpForce;
         }
     }

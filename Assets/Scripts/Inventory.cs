@@ -1,4 +1,5 @@
 using System;
+using TouchControlsKit;
 using UniRx;
 using UnityEngine;
 
@@ -19,8 +20,16 @@ public class Inventory : MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.C)) {
-            reactiveCrystalInfo.Value = CrystalColor.NONE;
+        if (GameManager.Instance.mobileControls && wasps == 0) {
+            GameManager.Instance.attackButton.isActive = false;
+            GameManager.Instance.attackButton.isVisible = false;
+            GameManager.Instance.attackLabel.SetActive(false);
+        }
+
+        if (GameManager.Instance.mobileControls && wasps > 0) {
+            GameManager.Instance.attackButton.isActive = true;
+            GameManager.Instance.attackButton.isVisible = true;
+            GameManager.Instance.attackLabel.SetActive(true);
         }
     }
 

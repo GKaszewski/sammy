@@ -4816,6 +4816,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7613293221349829038, guid: 7b78cec8c84fe9948b15ae00f5162553, type: 3}
+      propertyPath: m_Cameras.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7613293221349829038, guid: 7b78cec8c84fe9948b15ae00f5162553, type: 3}
+      propertyPath: m_Cameras.Array.data[0]
+      value: 
+      objectReference: {fileID: 1094165000}
     - target: {fileID: 7613293222895294019, guid: 7b78cec8c84fe9948b15ae00f5162553, type: 3}
       propertyPath: m_Name
       value: CameraParent
@@ -5540,6 +5548,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a214cf81ce0a7e94280eee0f5a7126b0, type: 3}
+--- !u!20 &1094165000 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 284667655, guid: 7dcb2a79570fe434caedad3036b790b4, type: 3}
+  m_PrefabInstance: {fileID: 620880693}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1094991978
 PrefabInstance:
   m_ObjectHideFlags: 0
