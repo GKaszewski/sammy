@@ -15,6 +15,7 @@ public class Wasp : MonoBehaviour {
             
             var obj = collision.collider.gameObject;
             obj.GetComponent<EnemyHealth>()?.TakeDamage(damage);
+            GameManager.Instance.effectsManager.SpawnEffect(EffectType.HIT, transform.position);
             Destroy(gameObject);
         }
         Destroy(gameObject);

@@ -21,6 +21,7 @@ public class PlayerCharacterController : MonoBehaviour {
     private bool intentToJump = false;
     private bool won = false;
     private bool isKnocked = false;
+    private bool wasRecentlyGrounded = false;
 
     private const float GRAVITY = 10;
     
@@ -36,6 +37,7 @@ public class PlayerCharacterController : MonoBehaviour {
     public float groundDetectionRadius = 0.1f;
     [HideInInspector] public Vector2 input;
     public bool isJumping = false;
+    public float groundDetectionTime = 0.1f;
 
     [HideInInspector]
     public bool ccIsGrounded = false;
@@ -82,9 +84,15 @@ public class PlayerCharacterController : MonoBehaviour {
         RestartStaminaWithKey();
 
         CheckGround();
+        CheckIfWasRecentlyGrounded();
         CalculateMovement();
         ApplyGravity();
         HandleJumping();
+
+        if (cc.isGrounded && !wasRecentlyGrounded) {
+            GameManager.Instance.effectsManager.SpawnEffect(EffectType.JUMP, feet.position);
+        }
+        
         if (won) return;
         if (isSliding) {
             velocity.x += ((1f - hitNormal.y) * hitNormal.x) * slideSpeed;
@@ -101,6 +109,16 @@ public class PlayerCharacterController : MonoBehaviour {
 
         Debug.DrawRay(transform.position, intent, Color.magenta);
         Debug.DrawRay(feet.position, Vector3.down*groundDetectionRadius, Color.green);
+    }
+    
+    private async Task CheckIfWasRecentlyGrounded() {
+        if (isGrounded) {
+            await Task.Delay(TimeSpan.FromSeconds(groundDetectionTime));
+            wasRecentlyGrounded = true;
+        }
+        else {
+            wasRecentlyGrounded = false;
+        }
     }
 
     private void CheckGround() {
@@ -157,6 +175,7 @@ public class PlayerCharacterController : MonoBehaviour {
 
         if (Input.GetButtonDown("Quick turn")) {
             AudioManager.instance.Play("quickturn");
+            GameManager.Instance.effectsManager.SpawnEffect(EffectType.RUN, feet.position);
             QuickTurn(90f);
         }
     }
@@ -172,6 +191,9 @@ public class PlayerCharacterController : MonoBehaviour {
             isRunning = true;
             currentSpeed = runSpeed;
             currentStamina -= Time.time * Time.deltaTime;
+            if ((int) currentStamina % 5 == 0) {
+                GameManager.Instance.effectsManager.SpawnEffect(EffectType.RUN, feet.position);
+            }
         }
         else {
             isRunning = false;
@@ -197,6 +219,7 @@ public class PlayerCharacterController : MonoBehaviour {
     public void Knockback(Vector3 direction) {
         isKnocked = true;
         velocity = direction;
+        GameManager.Instance.effectsManager.SpawnEffect(EffectType.HIT, transform.position);
         cc.Move(direction);
         Task.Delay(TimeSpan.FromSeconds(knockbackTime)).ContinueWith((task) => {
             isKnocked = false;

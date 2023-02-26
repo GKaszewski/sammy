@@ -69,6 +69,7 @@ public class PlayerHealth : Health {
             inventory.wasps = 0;
             inventory.DropCrystal();
             lives--;
+            GameManager.Instance.effectsManager.SpawnEffect(EffectType.DEATH, transform.position);
             transform.position = spawnpoint.position;
         }
     }

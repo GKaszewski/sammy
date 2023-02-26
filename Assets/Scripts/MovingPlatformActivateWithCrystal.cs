@@ -7,6 +7,9 @@ public class MovingPlatformActivateWithCrystal : MovingPlatform {
 
     public CrystalColor activationCrystal;
     public Material[] platformMaterials;
+    
+    [SerializeField] private bool stayOnAfterActivation = false;
+    
     protected void Start() {
         base.Start();
         renderer = GetComponent<MeshRenderer>();
@@ -15,7 +18,7 @@ public class MovingPlatformActivateWithCrystal : MovingPlatform {
     protected void Update() {
         base.Update();
         if (inventory) {
-            var hasCorrectCrystal = inventory.reactiveCrystalInfo.Value == activationCrystal;
+            var hasCorrectCrystal = inventory.reactiveCrystalInfo.Value == activationCrystal || inventory.reactiveCrystalInfo.Value == CrystalColor.MULTI;
             if (isOn && isMoving && !hasCorrectCrystal) isOn = false;
         }
     }
@@ -46,7 +49,7 @@ public class MovingPlatformActivateWithCrystal : MovingPlatform {
     private void ActivatePlatform(Collider other) {
         if (other.CompareTag("Player")) {
             inventory = other.GetComponent<Inventory>();
-            if (inventory.reactiveCrystalInfo.Value == activationCrystal) isOn = true;
+            if (inventory.reactiveCrystalInfo.Value == activationCrystal || inventory.reactiveCrystalInfo.Value == CrystalColor.MULTI) isOn = true;
         }
     }
 
@@ -62,6 +65,7 @@ public class MovingPlatformActivateWithCrystal : MovingPlatform {
 
     protected override void OnTriggerExit(Collider other) {
         base.OnTriggerExit(other);
+        if (stayOnAfterActivation) return;
         if (other.CompareTag("Player")) isOn = false;
     }
 }

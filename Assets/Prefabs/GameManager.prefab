@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6904513831316602720}
   - component: {fileID: 6904513831316602722}
   - component: {fileID: 6904513831316602733}
+  - component: {fileID: 9158085336473865631}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -76,6 +77,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerUIManager: {fileID: 0}
   aiManager: {fileID: 6904513831316602733}
+  effectsManager: {fileID: 9158085336473865631}
   maxPoints: 200
   mobileControls: 0
   joystick: {fileID: 181043171}
@@ -97,6 +99,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lions: []
   chaseLight: {fileID: 0}
+--- !u!114 &9158085336473865631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904513831316602727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b1e8005609513b449afa220e944d00b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathEffect: {fileID: 6401380243710185284, guid: ff04253ed03500b43831decbfe6d4321, type: 3}
+  hitEffect: {fileID: 3211394449641947574, guid: 3f63a750480049a4ebb0ec7be79cd71b, type: 3}
+  runEffect: {fileID: 1700335828746432653, guid: 74fe7888937d36a40861e98e2a8babee, type: 3}
+  jumpEffect: {fileID: 5832105295473056578, guid: f8fd4f2dd226b2c46ba79fcac63c9604, type: 3}
+  poofEffect: {fileID: 4032506443789306835, guid: 7a189d97cc8c4074984338389199a0ab, type: 3}
 --- !u!1001 &3797129279846598647
 PrefabInstance:
   m_ObjectHideFlags: 0
