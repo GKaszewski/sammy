@@ -22,9 +22,6 @@ public class PlayerAnimator : MonoBehaviour {
     public void Construct(EventManager eventManager)
     {
         _eventManager = eventManager;
-    }
-    
-    private void Start() {
         _eventManager.OnWin += OnWin;
     }
 

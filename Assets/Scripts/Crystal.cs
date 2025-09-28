@@ -13,10 +13,6 @@ public class Crystal : BaseCrystal {
     public float resetRotationTimer = 10f;
     
     public Transform player;
-    
-    protected void Start() {
-        base.Start();
-    }
 
     public void Die() {
         AudioManager.Instance.Play("crystal break");
@@ -24,13 +20,11 @@ public class Crystal : BaseCrystal {
     }
 
     public void ApplyForce() {
-        if (!rb) rb = GetComponent<Rigidbody>();
         rb.AddForce((player.forward - transform.up).normalized * force, ForceMode.Impulse);
         StartCoroutine(FixRotation());
     }
 
     public void ApplyForceUp() {
-        if (!rb) rb = GetComponent<Rigidbody>();
         rb.AddForce(player.up * force, ForceMode.Impulse);
         StartCoroutine(FixRotation());
     }

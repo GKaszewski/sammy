@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using KBCore.Refs;
+using Sammy;
 using UnityEngine;
 
 public enum DoorType {
@@ -7,8 +9,10 @@ public enum DoorType {
 }
 
 public class Door : MonoBehaviour {
-    private Inventory playerInventory;
-    private GameObject spawnedMovingCrystal;
+    private Inventory _playerInventory;
+    private GameObject _spawnedMovingCrystal;
+    
+    [SerializeField, Self] private CrystalColorApplier crystalColorApplier;
 
     protected bool areOpen = false;
     protected Vector3 openDestination;
@@ -18,7 +22,6 @@ public class Door : MonoBehaviour {
 
     public CrystalColor doorColor;
     public DoorType doorType;
-    public MeshRenderer doorRenderer;
 
     public Vector3 openOffset;
     public Transform crystalPosition;
@@ -27,13 +30,7 @@ public class Door : MonoBehaviour {
 
     public GameObject crystalPrefab;
 
-    [Tooltip("RED, BLUE, GREEN, YELLOW, ORANGE, PURPLE, DISABLED")]
-    public List<Material> doorMaterials = new List<Material>();
-
-    public List<Material> darkerDoorMaterials = new List<Material>();
-
     private void Start() {
-        HandleMaterial();
         CalculateOpenAndClosePosition();
     }
 
@@ -47,56 +44,13 @@ public class Door : MonoBehaviour {
         closeDestination = transform.position;
     }
 
-    private void HandleMaterial() {
-        var materials = doorRenderer.materials;
-        switch (doorColor) {
-            case CrystalColor.RED:
-                materials[0] = doorMaterials[0];
-                materials[1] = darkerDoorMaterials[0];
-                materials[2] = doorMaterials[0];
-                break;
-            case CrystalColor.BLUE:
-                materials[0] = doorMaterials[1];
-                materials[1] = darkerDoorMaterials[1];
-                materials[2] = doorMaterials[1];
-                break;
-            case CrystalColor.GREEN:
-                materials[0] = doorMaterials[2];
-                materials[1] = darkerDoorMaterials[2];
-                materials[2] = doorMaterials[2];
-                break;
-            case CrystalColor.YELLOW:
-                materials[0] = doorMaterials[3];
-                materials[1] = darkerDoorMaterials[3];
-                materials[2] = doorMaterials[3];
-                break;
-            case CrystalColor.ORANGE:
-                materials[0] = doorMaterials[4];
-                materials[1] = darkerDoorMaterials[4];
-                materials[2] = doorMaterials[4];
-                break;
-            case CrystalColor.PURPLE:
-                materials[0] = doorMaterials[5];
-                materials[1] = darkerDoorMaterials[5];
-                materials[2] = doorMaterials[5];
-                break;
-            case CrystalColor.NONE:
-                materials[0] = doorMaterials[6];
-                materials[1] = darkerDoorMaterials[6];
-                materials[2] = doorMaterials[6];
-                break;
-        }
-
-        doorRenderer.materials = materials;
-    }
-
     private void DestroyCrystal() {
-        if (playerInventory) {
-            if (playerInventory.ReactiveCrystalInfo.Value == CrystalColor.MULTI) return;
+        if (_playerInventory) {
+            if (_playerInventory.ReactiveCrystalInfo.Value == CrystalColor.MULTI) return;
             AudioManager.Instance.Play("crystal break");
-            playerInventory.ReactiveCrystalInfo.Value = CrystalColor.NONE;
+            _playerInventory.ReactiveCrystalInfo.Value = CrystalColor.NONE;
             doorColor = CrystalColor.NONE;
-            HandleMaterial();
+            crystalColorApplier.ApplyMaterial(doorColor);
         }
 
         areOpen = true;
@@ -107,33 +61,33 @@ public class Door : MonoBehaviour {
     }
 
     private void ReturnCrystal() {
-        if (playerInventory && playerInventory.ReactiveCrystalInfo.Value != CrystalColor.MULTI && doorType == DoorType.OPEN_AND_HOLD)
-            playerInventory.ReactiveCrystalInfo.Value = doorColor;
+        if (_playerInventory && _playerInventory.ReactiveCrystalInfo.Value != CrystalColor.MULTI && doorType == DoorType.OPEN_AND_HOLD)
+            _playerInventory.ReactiveCrystalInfo.Value = doorColor;
     }
 
     private void MoveCrystalTowardsDoors() {
-        if (!playerInventory) return;
-        var crystal = Instantiate(crystalPrefab, playerInventory.crystalSpawnPosition.position, Quaternion.identity).GetComponent<MovingCrystal>();
+        if (!_playerInventory) return;
+        var crystal = Instantiate(crystalPrefab, _playerInventory.crystalSpawnPosition.position, Quaternion.identity).GetComponent<MovingCrystal>();
         crystal.color = doorColor;
         LeanTween.move(crystal.gameObject, crystalPosition, openDistance / movementTime)
             .setOnComplete(() => Destroy(crystal.gameObject));
 
-        spawnedMovingCrystal = crystal.gameObject;
+        _spawnedMovingCrystal = crystal.gameObject;
     }
 
     private void MoveCrystalTowardsPlayer() {
-        if (!playerInventory || !spawnedMovingCrystal) return;
-        LeanTween.cancel(spawnedMovingCrystal);
-        LeanTween.move(spawnedMovingCrystal, playerInventory.crystalSpawnPosition,  closeDistance / movementTime)
-            .setOnComplete(() => Destroy(spawnedMovingCrystal));
+        if (!_playerInventory || !_spawnedMovingCrystal) return;
+        LeanTween.cancel(_spawnedMovingCrystal);
+        LeanTween.move(_spawnedMovingCrystal, _playerInventory.crystalSpawnPosition,  closeDistance / movementTime)
+            .setOnComplete(() => Destroy(_spawnedMovingCrystal));
     }
 
     public virtual void Open() {
         AudioManager.Instance.Play("door open");
         LeanTween.cancel(gameObject);
         if (doorType == DoorType.OPEN_AND_HOLD) {
-            playerInventory.previousColor = playerInventory.ReactiveCrystalInfo.Value;
-            playerInventory.ReactiveCrystalInfo.Value = CrystalColor.NONE;
+            _playerInventory.previousColor = _playerInventory.ReactiveCrystalInfo.Value;
+            _playerInventory.ReactiveCrystalInfo.Value = CrystalColor.NONE;
             MoveCrystalTowardsDoors();
             LeanTween.move(gameObject, openDestination, openDistance / movementTime).setEaseLinear()
                 .setOnComplete(DestroyCrystal);
@@ -155,7 +109,7 @@ public class Door : MonoBehaviour {
         if (!other.CompareTag("Player")) return;
         var playerInventory = other.GetComponent<Inventory>();
         if (!playerInventory) return;
-        this.playerInventory = playerInventory;
+        this._playerInventory = playerInventory;
         if (!areOpen && (playerInventory.ReactiveCrystalInfo.Value == doorColor ||
                          playerInventory.ReactiveCrystalInfo.Value == CrystalColor.MULTI)) Open();
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using KBCore.Refs;
+using Sammy.AI;
 using UniRx;
 using Unity.Mathematics;
 using UnityEngine;
@@ -27,6 +28,8 @@ public class LionAI : MonoBehaviour {
    private AIState _state;
    private Vector3 _fleePoint;
    private Transform _startTransform;
+   
+   public StateMachine StateMachine { get; private set; }
 
    public AIState State {
       get => _state;
@@ -60,6 +63,9 @@ public class LionAI : MonoBehaviour {
    public NavMeshAgent Agent => agent;
 
    private void Start() {
+      StateMachine = new StateMachine();
+      // StateMachine.ChangeState(new IdleState(this));
+      
       GameManager.Instance.eventManager.SpawnLion(this);
       agent.stoppingDistance = attackRange;
       GoToWanderPoint();
@@ -70,6 +76,8 @@ public class LionAI : MonoBehaviour {
    }
 
    private void Update() {
+      StateMachine.CurrentState?.Execute();
+      
       _distanceFromPlayer = Vector3.Distance(transform.position, target.transform.position);
       if (_distanceFromPlayer <= attackRange) {
          State = AIState.ATTACKING;

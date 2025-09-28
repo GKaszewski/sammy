@@ -1251,6 +1251,26 @@ PrefabInstance:
       propertyPath: doorColor
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2601801973020704009, guid: 3735ac6fa64f7ec4aba0122b276fda9e, type: 3}
+      propertyPath: crystalColorApplier
+      value: 
+      objectReference: {fileID: 260614305}
+    - target: {fileID: 6032875360162544189, guid: 3735ac6fa64f7ec4aba0122b276fda9e, type: 3}
+      propertyPath: crystalColor
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6032875360162544189, guid: 3735ac6fa64f7ec4aba0122b276fda9e, type: 3}
+      propertyPath: materialMappings.Array.data[0].color
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6032875360162544189, guid: 3735ac6fa64f7ec4aba0122b276fda9e, type: 3}
+      propertyPath: 'materialMappings.Array.data[0].materialsToApply.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ad345814bfd20e74cad4c78651f08ac1, type: 2}
+    - target: {fileID: 6032875360162544189, guid: 3735ac6fa64f7ec4aba0122b276fda9e, type: 3}
+      propertyPath: 'materialMappings.Array.data[0].materialsToApply.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 597af1832b27b4d47be9fb216de8fb80, type: 2}
     - target: {fileID: 7180624973327177331, guid: 3735ac6fa64f7ec4aba0122b276fda9e, type: 3}
       propertyPath: m_Name
       value: Door
@@ -1260,6 +1280,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3735ac6fa64f7ec4aba0122b276fda9e, type: 3}
+--- !u!114 &260614305 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6032875360162544189, guid: 3735ac6fa64f7ec4aba0122b276fda9e, type: 3}
+  m_PrefabInstance: {fileID: 260614304}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59740856a20b4f318389a99427c7bd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sammy.CrystalColorApplier
 --- !u!1 &273059196
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,6 +2560,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &516200995 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 7637454883208682959, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
+  m_PrefabInstance: {fileID: 933747857}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &522669027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5440,6 +5476,14 @@ PrefabInstance:
       propertyPath: m_ClearFlags
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6640259773941007982, guid: 7dcb2a79570fe434caedad3036b790b4, type: 3}
+      propertyPath: inventory
+      value: 
+      objectReference: {fileID: 1368087767}
+    - target: {fileID: 6640259773941007982, guid: 7dcb2a79570fe434caedad3036b790b4, type: 3}
+      propertyPath: playerUIManager
+      value: 
+      objectReference: {fileID: 504172361}
     - target: {fileID: 6904513831316602721, guid: 7dcb2a79570fe434caedad3036b790b4, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -5552,10 +5596,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122113727ea04bdcb1609f31b056f36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!20 &620880695 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 284667655, guid: 7dcb2a79570fe434caedad3036b790b4, type: 3}
-  m_PrefabInstance: {fileID: 620880693}
+--- !u!54 &630172612 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 7637454883208682959, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
+  m_PrefabInstance: {fileID: 1980367517}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &645584297
 PrefabInstance:
@@ -6187,6 +6231,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2497657178125112273, guid: 3d06549875b191e42ba0141aa4783e8e, type: 3}
   m_PrefabInstance: {fileID: 716946599}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &733137959 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5395780842741885551, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+  m_PrefabInstance: {fileID: 1404166925}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f27376bbe347ad9c243a493e7f2cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &733137962 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 7783029320771932934, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+  m_PrefabInstance: {fileID: 1404166925}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &733137964 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 287618408533457332, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+  m_PrefabInstance: {fileID: 1404166925}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &771205580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6607,6 +6672,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7028914411860957479, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
+      propertyPath: crystalColor
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7028914411860957479, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7028914411860957479, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
+    - target: {fileID: 7637454883208682952, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 516200995}
     - target: {fileID: 7637454883208682952, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
       propertyPath: color
       value: 3
@@ -6781,7 +6858,7 @@ PrefabInstance:
     - target: {fileID: 7613293221349829038, guid: 7b78cec8c84fe9948b15ae00f5162553, type: 3}
       propertyPath: 'm_Cameras.Array.data[0]'
       value: 
-      objectReference: {fileID: 620880695}
+      objectReference: {fileID: 0}
     - target: {fileID: 7613293222895294019, guid: 7b78cec8c84fe9948b15ae00f5162553, type: 3}
       propertyPath: m_Name
       value: CameraParent
@@ -7462,6 +7539,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4759722207939501, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+      propertyPath: inventory
+      value: 
+      objectReference: {fileID: 1368087767}
     - target: {fileID: 261795453323248583, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -7507,6 +7588,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 266553929040427445, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+      propertyPath: cc
+      value: 
+      objectReference: {fileID: 1368087766}
+    - target: {fileID: 266553929040427445, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
       propertyPath: jumpForce
       value: 4
       objectReference: {fileID: 0}
@@ -7542,6 +7627,18 @@ PrefabInstance:
       propertyPath: spawnpoint
       value: 
       objectReference: {fileID: 493874723}
+    - target: {fileID: 8007232017308761589, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+      propertyPath: inventory
+      value: 
+      objectReference: {fileID: 1368087767}
+    - target: {fileID: 8007232017308761589, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+      propertyPath: combatSystem
+      value: 
+      objectReference: {fileID: 1368087765}
+    - target: {fileID: 8007232017308761589, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+      propertyPath: playerUIManager
+      value: 
+      objectReference: {fileID: 504172361}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7980,6 +8077,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802639879}
     m_Modifications:
+    - target: {fileID: 5958654453665158078, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 1564252135}
+    - target: {fileID: 5958654453665158078, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+      propertyPath: lionAI
+      value: 
+      objectReference: {fileID: 817926319}
+    - target: {fileID: 5958654453665158078, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+      propertyPath: lionHealth
+      value: 
+      objectReference: {fileID: 1564252130}
     - target: {fileID: 7783029320771932935, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
       propertyPath: m_Name
       value: Lion (1)
@@ -8028,6 +8137,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7783029320771932940, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+      propertyPath: agent
+      value: 
+      objectReference: {fileID: 1564252133}
     - target: {fileID: 7783029320771932940, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
       propertyPath: target
       value: 
@@ -9428,6 +9541,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71003a6ccfedab74ebef39ef85bb5839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1368087765 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4759722207939501, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+  m_PrefabInstance: {fileID: 1094991978}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279190247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37b8e9b416f471b4bacf6c38211acfe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!143 &1368087766 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 4759722207939493, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+  m_PrefabInstance: {fileID: 1094991978}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1368087767 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 266553929040427447, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+  m_PrefabInstance: {fileID: 1094991978}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279190247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2769951fe710adf43969d0c2be3f972f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1404166925
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9436,6 +9576,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802639879}
     m_Modifications:
+    - target: {fileID: 5958654453665158078, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 733137964}
+    - target: {fileID: 5958654453665158078, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+      propertyPath: lionAI
+      value: 
+      objectReference: {fileID: 450514801}
+    - target: {fileID: 5958654453665158078, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+      propertyPath: lionHealth
+      value: 
+      objectReference: {fileID: 733137959}
     - target: {fileID: 7783029320771932935, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
       propertyPath: m_Name
       value: Lion
@@ -9484,6 +9636,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7783029320771932940, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+      propertyPath: agent
+      value: 
+      objectReference: {fileID: 733137962}
     - target: {fileID: 7783029320771932940, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
       propertyPath: target
       value: 
@@ -9575,6 +9731,10 @@ PrefabInstance:
       propertyPath: pointsToUnlock
       value: 1000
       objectReference: {fileID: 0}
+    - target: {fileID: 1261556468, guid: a214cf81ce0a7e94280eee0f5a7126b0, type: 3}
+      propertyPath: crystalColorApplier
+      value: 
+      objectReference: {fileID: 1442371314}
     - target: {fileID: 1518549468838067926, guid: a214cf81ce0a7e94280eee0f5a7126b0, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -9628,6 +9788,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a214cf81ce0a7e94280eee0f5a7126b0, type: 3}
+--- !u!114 &1442371314 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6545611897244239158, guid: a214cf81ce0a7e94280eee0f5a7126b0, type: 3}
+  m_PrefabInstance: {fileID: 1442371313}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59740856a20b4f318389a99427c7bd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sammy.CrystalColorApplier
 --- !u!1001 &1466268484
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9891,6 +10062,27 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2497657178125112273, guid: 3d06549875b191e42ba0141aa4783e8e, type: 3}
   m_PrefabInstance: {fileID: 1558009711}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1564252130 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5395780842741885551, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+  m_PrefabInstance: {fileID: 1173108881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f27376bbe347ad9c243a493e7f2cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &1564252133 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 7783029320771932934, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+  m_PrefabInstance: {fileID: 1173108881}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1564252135 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 287618408533457332, guid: ec35938ea438f4d4d978793099ee6951, type: 3}
+  m_PrefabInstance: {fileID: 1173108881}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1579550220
 PrefabInstance:
@@ -11786,6 +11978,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7028914411860957479, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
+      propertyPath: crystalColor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7028914411860957479, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7028914411860957479, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
+    - target: {fileID: 7637454883208682952, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 630172612}
     - target: {fileID: 7637454883208682952, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
       propertyPath: color
       value: 1

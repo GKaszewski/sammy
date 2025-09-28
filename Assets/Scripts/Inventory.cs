@@ -32,7 +32,6 @@ public class Inventory : MonoBehaviour {
         var newCrystal = Instantiate(crystalPrefab, position, Quaternion.identity).GetComponent<Crystal>();
         newCrystal.color = color;
         newCrystal.HandleMaterial();
-
         return newCrystal;
     }
 
