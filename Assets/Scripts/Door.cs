@@ -93,7 +93,7 @@ public class Door : MonoBehaviour {
     private void DestroyCrystal() {
         if (playerInventory) {
             if (playerInventory.reactiveCrystalInfo.Value == CrystalColor.MULTI) return;
-            AudioManager.instance.Play("crystal break");
+            AudioManager.Instance.Play("crystal break");
             playerInventory.reactiveCrystalInfo.Value = CrystalColor.NONE;
             doorColor = CrystalColor.NONE;
             HandleMaterial();
@@ -129,7 +129,7 @@ public class Door : MonoBehaviour {
     }
 
     public virtual void Open() {
-        AudioManager.instance.Play("door open");
+        AudioManager.Instance.Play("door open");
         LeanTween.cancel(gameObject);
         if (doorType == DoorType.OPEN_AND_HOLD) {
             playerInventory.previousColor = playerInventory.reactiveCrystalInfo.Value;

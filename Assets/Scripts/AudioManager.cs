@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
-        public List<Sound> sounds;
+        [SerializeField] private List<Sound> sounds;
 
-        public static AudioManager instance;
+        public static AudioManager Instance;
 
         private void Awake() {
-                if (!instance) instance = this;
+                if (!Instance) Instance = this;
                 else {
                         Destroy(gameObject);
                         return;
@@ -24,12 +23,9 @@ public class AudioManager : MonoBehaviour {
                         sound.source.loop = sound.loop;
                 }
         }
-
-        private void Start() {
-        }
         
-        public void Play(string name) {
-                var sound = sounds.Find(sound => sound.name == name);
+        public void Play(string audioFileName) {
+                var sound = sounds.Find(sound => sound.name == audioFileName);
                 sound?.source.Play();
         }
 }

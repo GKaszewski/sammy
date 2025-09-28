@@ -6,7 +6,7 @@ public class Wasp : MonoBehaviour {
     public float speed = 10f;
 
     protected void Start() {
-        AudioManager.instance.Play("fly flying");
+        AudioManager.Instance.Play("fly flying");
         Destroy(gameObject, livingTime);
     }
 

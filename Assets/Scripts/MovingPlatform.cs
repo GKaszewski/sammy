@@ -1,63 +1,62 @@
 using System;
 using System.Collections;
+using KBCore.Refs;
 using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour {
     [SerializeField] private float speed;
     [SerializeField] private float changeDirectionDelay;
+    [SerializeField, Self] private Rigidbody rb;
     
     protected bool isMoving;
 
-    private Transform destinationTarget, departTarget;
-    private Rigidbody rb;
-    private CharacterController cc;
-    private Vector3 oldPosition;
-    private Vector3 delta;
-    private float startTime;
-    private float movingTime;
-    private float journeyLength;
-    private bool isWaiting;
-    private int currentWaypoint;
+    private Transform _destinationTarget, _departTarget;
+    private CharacterController _cc;
+    private Vector3 _oldPosition;
+    private Vector3 _delta;
+    private float _startTime;
+    private float _movingTime;
+    private float _journeyLength;
+    private bool _isWaiting;
+    private int _currentWaypoint;
 
     public Transform[] waypoints;
     public bool isOn = false;
     
     protected void Start() {
-        departTarget = waypoints[0];
-        destinationTarget = waypoints[1];
+        _departTarget = waypoints[0];
+        _destinationTarget = waypoints[1];
 
-        startTime = 0f;
-        journeyLength = Vector3.Distance(departTarget.position, destinationTarget.position);
-
-        rb = GetComponent<Rigidbody>();
+        _startTime = 0f;
+        _journeyLength = Vector3.Distance(_departTarget.position, _destinationTarget.position);
     }
 
     protected void Update() {
-        if (isMoving) movingTime += Time.deltaTime;
-        delta = transform.position - oldPosition;
+        if (isMoving) _movingTime += Time.deltaTime;
+        _delta = transform.position - _oldPosition;
 
         if (isOn) {
-            oldPosition = transform.position;
+            _oldPosition = transform.position;
             Move();
-            if (cc) cc.Move( delta);
+            if (_cc) _cc.Move( _delta);
         }
         else isMoving = false;
     }
 
     private void LateUpdate() {
-        oldPosition = transform.position;
+        _oldPosition = transform.position;
     }
     
     private void Move() {
-        if (!isWaiting) {
-            if (Vector3.Distance(transform.position, destinationTarget.position) > 0.01f) {
+        if (!_isWaiting) {
+            if (Vector3.Distance(transform.position, _destinationTarget.position) > 0.01f) {
                 isMoving = true;
-                var distCovered = (movingTime - startTime) * speed;
-                var fractionOfJourney = distCovered / journeyLength;
-                rb.MovePosition(Vector3.Lerp(departTarget.position, destinationTarget.position, fractionOfJourney));
+                var distCovered = (_movingTime - _startTime) * speed;
+                var fractionOfJourney = distCovered / _journeyLength;
+                rb.MovePosition(Vector3.Lerp(_departTarget.position, _destinationTarget.position, fractionOfJourney));
             }
             else {
-                isWaiting = true;
+                _isWaiting = true;
                 isMoving = false;
                 StartCoroutine(ChangeDelay());
             }
@@ -65,30 +64,30 @@ public class MovingPlatform : MonoBehaviour {
     }
 
     private void ChangeDestination() {
-        var previous = currentWaypoint;
-        currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
-        departTarget = waypoints[previous];
-        destinationTarget = waypoints[currentWaypoint];
+        var previous = _currentWaypoint;
+        _currentWaypoint = (_currentWaypoint + 1) % waypoints.Length;
+        _departTarget = waypoints[previous];
+        _destinationTarget = waypoints[_currentWaypoint];
     }
 
     private IEnumerator ChangeDelay() {
         yield return new WaitForSeconds(changeDirectionDelay);
         ChangeDestination();
-        startTime = 0f;
-        movingTime = 0f;
-        journeyLength = Vector3.Distance(departTarget.position, destinationTarget.position);
-        isWaiting = false;
+        _startTime = 0f;
+        _movingTime = 0f;
+        _journeyLength = Vector3.Distance(_departTarget.position, _destinationTarget.position);
+        _isWaiting = false;
     }
 
     protected virtual void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
-            cc = other.gameObject.GetComponent<CharacterController>();
+            _cc = other.gameObject.GetComponent<CharacterController>();
         }
     }
 
     protected virtual void OnTriggerExit(Collider other) {
         if (other.CompareTag("Player")) {
-            cc = null;
+            _cc = null;
         }
     }
 }

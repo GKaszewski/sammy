@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using TouchControlsKit;
+using KBCore.Refs;
 using UnityEngine;
 
 public class PlayerCharacterController : MonoBehaviour {
-    private CharacterController cc;
+    [SerializeField, Self] private CharacterController cc;
     private RaycastHit slopeHit;
     private Vector3 slopeDirection;
     private Vector3 camF;
@@ -51,7 +51,6 @@ public class PlayerCharacterController : MonoBehaviour {
     public LayerMask groundDetectionLayerMask;
 
     private void Start() {
-        cc = GetComponent<CharacterController>();
         currentSpeed = walkSpeed;
         currentStamina = maxStamina;
         GameManager.Instance.eventManager.OnWin += OnWin;
@@ -66,16 +65,9 @@ public class PlayerCharacterController : MonoBehaviour {
     }
 
     private void Update() {
-        if (TCKInput.GetControllerActive("joystick")) {
-            input = new Vector2(TCKInput.GetAxis("joystick", EAxisType.Horizontal),
-                TCKInput.GetAxis("joystick", EAxisType.Vertical));
-        }
-        else {
-            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        }
-
-        
+        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         ccIsGrounded = cc.isGrounded;
+        
         HandleCamera();
         CheckRun();
         HandleRunning();
@@ -105,7 +97,7 @@ public class PlayerCharacterController : MonoBehaviour {
         }
         //CheckSliding();
 
-        if (input.magnitude > 0 && !isJumping) transform.Rotate(Vector3.up * input.x * rotationSpeed * Time.deltaTime);
+        if (input.magnitude > 0 && !isJumping) transform.Rotate(Vector3.up * (input.x * rotationSpeed * Time.deltaTime));
 
         Debug.DrawRay(transform.position, intent, Color.magenta);
         Debug.DrawRay(feet.position, Vector3.down*groundDetectionRadius, Color.green);
@@ -136,7 +128,7 @@ public class PlayerCharacterController : MonoBehaviour {
         intent = camF * input.y + camR * input.x;
         velocityXZ = velocity;
         velocityXZ.y = 0;
-        velocityXZ = transform.forward * currentSpeed * input.y;
+        velocityXZ = transform.forward * (currentSpeed * input.y);
         velocity = new Vector3(velocityXZ.x, velocity.y, velocityXZ.z);
     }
 
@@ -155,7 +147,7 @@ public class PlayerCharacterController : MonoBehaviour {
 
     private void HandleJumping() {
         isJumping = velocity.y > 0 && !isGrounded;
-        intentToJump = Input.GetButton("Jump") || TCKInput.GetAction("Jump", EActionEvent.Press);
+        intentToJump = Input.GetButton("Jump");
         if (intentToJump && isGrounded) {
             velocity.y = jumpForce;
         }
@@ -163,18 +155,18 @@ public class PlayerCharacterController : MonoBehaviour {
 
     private void HandleQuickTurn() {
         if (Input.GetButtonDown("Quick turn") && Input.GetAxisRaw("Horizontal") > 0) {
-            AudioManager.instance.Play("quickturn");
+            AudioManager.Instance.Play("quickturn");
             QuickTurn(90f);
             return;
         }
         else if (Input.GetButtonDown("Quick turn") && Input.GetAxisRaw("Horizontal") < 0) {
-            AudioManager.instance.Play("quickturn");
+            AudioManager.Instance.Play("quickturn");
             QuickTurn(-90f);
             return;
         }
 
         if (Input.GetButtonDown("Quick turn")) {
-            AudioManager.instance.Play("quickturn");
+            AudioManager.Instance.Play("quickturn");
             GameManager.Instance.effectsManager.SpawnEffect(EffectType.RUN, feet.position);
             QuickTurn(90f);
         }

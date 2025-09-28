@@ -1,63 +1,65 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using KBCore.Refs;
 using UnityEngine;
 
-public class LionAnimator : MonoBehaviour {
-        private Animator anim;
-       
-       private readonly int IdleHash = Animator.StringToHash("Idle");
-       private readonly int WalkingHash = Animator.StringToHash("Walk");
-       private readonly int RunningHash = Animator.StringToHash("Run");
-       private readonly int PunchHash = Animator.StringToHash("Punch");
-       private readonly int DeathHash = Animator.StringToHash("Death");
+public class LionAnimator : MonoBehaviour
+{
+    [SerializeField, Self] private Animator anim;
+    [SerializeField, Self] private LionAI lionAI;
+    [SerializeField, Self] private EnemyHealth lionHealth;
+    [SerializeField] private float attackAnimTime = 0.5f;
+    [SerializeField] private float deathAnimTime = 1.5f;
 
-       private float lockedTill;
-       private int currentState;
+    private readonly int _idleHash = Animator.StringToHash("Idle");
+    private readonly int _walkingHash = Animator.StringToHash("Walk");
+    private readonly int _runningHash = Animator.StringToHash("Run");
+    private readonly int _punchHash = Animator.StringToHash("Punch");
+    private readonly int _deathHash = Animator.StringToHash("Death");
 
-       private bool attacked = false;
-       
-       private LionAI lionAI;
-       private EnemyHealth lionHealth;
+    private float _lockedTill;
+    private int _currentState;
+    private bool _attacked = false;
 
-       public float attackAnimTime = 0.5f;
-       public float deathAnimTime = 1.5f;
-   
-       private void Start() {
-           anim = GetComponent<Animator>();
-           lionAI = GetComponent<LionAI>();
-           lionHealth = GetComponent<EnemyHealth>();
-           GameManager.Instance.eventManager.OnLionAttack += OnAttack;
-       }
+    private void Start()
+    {
+        GameManager.Instance.eventManager.OnLionAttack += OnAttack;
+    }
 
-       private void OnDisable() {
-           GameManager.Instance.eventManager.OnLionAttack -= OnAttack;
-       }
+    private void OnDisable()
+    {
+        GameManager.Instance.eventManager.OnLionAttack -= OnAttack;
+    }
 
-       private void OnAttack() {
-           attacked = true;
-       }
+    private void OnAttack()
+    {
+        _attacked = true;
+    }
 
-       private void Update() {
-           var state = GetState();
-           attacked = false;
-           
-           if (state == currentState) return;
-           anim.CrossFade(state, 0.1f, 0);
-           currentState = state;
-       }
-   
-       private int GetState() {
-           if (Time.time < lockedTill) return currentState;
-           if (lionHealth.health <= 0) return LockState(DeathHash, deathAnimTime);
-           if (attacked) return LockState(PunchHash, attackAnimTime);
-           if (lionAI.State is AIState.CHASING or AIState.FLEEING) return RunningHash;
-           if (lionAI.State is AIState.PATROLING or AIState.WANDERING) return WalkingHash;
-           return IdleHash;
-           
-           int LockState(int s, float t) {
-               lockedTill = Time.time + t;
-               return s;
-           }
-       }
+    private void Update()
+    {
+        var state = GetState();
+        _attacked = false;
+
+        if (state == _currentState) return;
+        anim.CrossFade(state, 0.1f, 0);
+        _currentState = state;
+    }
+
+    private int GetState()
+    {
+        if (Time.time < _lockedTill) return _currentState;
+        if (lionHealth.health <= 0) return LockState(_deathHash, deathAnimTime);
+        if (_attacked) return LockState(_punchHash, attackAnimTime);
+        if (lionAI.State is AIState.CHASING or AIState.FLEEING) return _runningHash;
+        if (lionAI.State is AIState.PATROLING or AIState.WANDERING) return _walkingHash;
+        return _idleHash;
+
+        int LockState(int s, float t)
+        {
+            _lockedTill = Time.time + t;
+            return s;
+        }
+    }
 }

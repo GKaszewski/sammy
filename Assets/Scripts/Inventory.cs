@@ -1,10 +1,8 @@
-using System;
-using TouchControlsKit;
 using UniRx;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour {
-    public int points;
+    [SerializeField] public int points;
     public int wasps = 10;
     public ReactiveProperty<CrystalColor> reactiveCrystalInfo;
     public WaspType currentWaspType;
@@ -18,32 +16,18 @@ public class Inventory : MonoBehaviour {
         reactiveCrystalInfo = new ReactiveProperty<CrystalColor>(CrystalColor.NONE);
         reactiveCrystalInfo.Subscribe(color => GameManager.Instance.eventManager.ChangeCrystal(color));
     }
-
-    private void Update() {
-        if (GameManager.Instance.mobileControls && wasps == 0) {
-            GameManager.Instance.attackButton.isActive = false;
-            GameManager.Instance.attackButton.isVisible = false;
-            GameManager.Instance.attackLabel.SetActive(false);
-        }
-
-        if (GameManager.Instance.mobileControls && wasps > 0) {
-            GameManager.Instance.attackButton.isActive = true;
-            GameManager.Instance.attackButton.isVisible = true;
-            GameManager.Instance.attackLabel.SetActive(true);
-        }
-    }
-
+    
     public void CollectPoints(int _points) {
         points += _points;
         if (points >= GameManager.Instance.maxPoints) {
             reactiveCrystalInfo.Value = CrystalColor.MULTI;
-            AudioManager.instance.Play("Won");
+            AudioManager.Instance.Play("Won");
         }
         GameManager.Instance.eventManager.PickPointUp(points);
     }
     
     private Crystal SpawnCrystal(CrystalColor color, Vector3 position) {
-        AudioManager.instance.Play("crystal spawn");
+        AudioManager.Instance.Play("crystal spawn");
         var newCrystal = Instantiate(crystalPrefab, position, Quaternion.identity).GetComponent<Crystal>();
         newCrystal.color = color;
         newCrystal.HandleMaterial();
@@ -59,7 +43,7 @@ public class Inventory : MonoBehaviour {
         if (!hit.collider.CompareTag("Crystal")) return;
         var newCrystal = hit.gameObject.GetComponent<Crystal>();
         if (!newCrystal) return;
-        AudioManager.instance.Play("crystal pickup");
+        AudioManager.Instance.Play("crystal pickup");
         if (reactiveCrystalInfo.Value != CrystalColor.NONE && reactiveCrystalInfo.Value != CrystalColor.MULTI) {
             var newColor = Crystal.Mix(reactiveCrystalInfo.Value, newCrystal.color);
             if (newColor == CrystalColor.NONE) {
@@ -68,7 +52,7 @@ public class Inventory : MonoBehaviour {
                 spawnedCrystal.ApplyForce();
             }
             else
-                AudioManager.instance.Play("crystal mix");
+                AudioManager.Instance.Play("crystal mix");
 
             reactiveCrystalInfo.Value = newColor != CrystalColor.NONE ? newColor : newCrystal.color;
         }
@@ -84,7 +68,7 @@ public class Inventory : MonoBehaviour {
         var spawnedCrystal = SpawnCrystal(reactiveCrystalInfo.Value, crystalSpawnPosition.position + (transform.forward * 2f));
         spawnedCrystal.player = transform;
         spawnedCrystal.ApplyForceUp();
-        AudioManager.instance.Play("crystal spawn");
+        AudioManager.Instance.Play("crystal spawn");
         reactiveCrystalInfo.Value = CrystalColor.NONE;
     }
 }

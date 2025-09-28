@@ -1,16 +1,11 @@
 using System;
+using KBCore.Refs;
 using UnityEngine;
 
 public class WaspPickup : MonoBehaviour {
-    private Inventory inventory;
-    private CombatSystem combatSystem;
-    private PlayerUIManager playerUIManager;
-
-    private void Start() {
-        inventory = GetComponent<Inventory>();
-        combatSystem = GetComponent<CombatSystem>();
-        playerUIManager = FindObjectOfType<PlayerUIManager>();
-    }
+    [SerializeField, Self] private Inventory inventory;
+    [SerializeField, Self] private CombatSystem combatSystem;
+    [SerializeField, Scene] private PlayerUIManager playerUIManager;
 
     private void ResetWaspsInInventory() {
         inventory.wasps = 0;

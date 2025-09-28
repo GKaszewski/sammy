@@ -3,11 +3,11 @@
     
     public override void TakeDamage(int damage) {
         base.TakeDamage(damage);
-        if (health > 0) AudioManager.instance.Play("damage");
+        if (health > 0) AudioManager.Instance.Play("damage");
         if (health <= 0) {
             //spawn particles
             //play death sound
-            AudioManager.instance.Play("damage");
+            AudioManager.Instance.Play("damage");
             Destroy(gameObject, deathAnimationTime);
         }
     }

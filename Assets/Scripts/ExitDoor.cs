@@ -6,7 +6,7 @@ public class ExitDoor : Door {
 
 
     public override void Open() {
-        AudioManager.instance.Play("door open");
+        AudioManager.Instance.Play("door open");
         LeanTween.cancel(gameObject);
         LeanTween.move(gameObject, openDestination, openDistance / movementTime).setEaseLinear();
     }

@@ -1,14 +1,14 @@
 ﻿using System;
+using KBCore.Refs;
 using UnityEngine;
 
 public class NavigatingWasp : Wasp {
-    private Rigidbody rb;
+    [SerializeField, Self] private Rigidbody rb;
 
     public Transform target;
 
     protected void Start() {
         base.Start();
-        rb = GetComponent<Rigidbody>();
     }
 
     private void Update() {

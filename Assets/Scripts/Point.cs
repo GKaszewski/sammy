@@ -22,7 +22,7 @@ public class Point : MonoBehaviour {
         var inventory = other.GetComponent<Inventory>();
         if (!inventory) return;
         
-        AudioManager.instance.Play("points pickup");
+        AudioManager.Instance.Play("points pickup");
         GameManager.Instance.effectsManager.SpawnEffect(EffectType.POOF, transform.position);
         inventory.CollectPoints(points);
         Die();

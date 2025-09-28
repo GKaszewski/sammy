@@ -1,28 +1,23 @@
-﻿using System;
+﻿using KBCore.Refs;
 using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour {
-    private Animator anim;
+    [SerializeField, Self] private Animator anim;
+    [SerializeField, Self] private PlayerCharacterController playerCharacterController;
+    [SerializeField] private float dancingTime = 2.5f;
     
-    private readonly int IdleHash = Animator.StringToHash("Idle");
-    private readonly int WalkingHash = Animator.StringToHash("Walk");
-    private readonly int RunningHash = Animator.StringToHash("Run");
-    private readonly int JumpingHash = Animator.StringToHash("Jump");
-    private readonly int DancingHash = Animator.StringToHash("Dance");
+    private readonly int _idleHash = Animator.StringToHash("Idle");
+    private readonly int _walkingHash = Animator.StringToHash("Walk");
+    private readonly int _runningHash = Animator.StringToHash("Run");
+    private readonly int _jumpingHash = Animator.StringToHash("Jump");
+    private readonly int _dancingHash = Animator.StringToHash("Dance");
 
-    private float lockedTill;
-    private int currentState;
-
-    private bool dance = false;
-
-    private PlayerCharacterController playerCharacterController;
-
-    public float dancingTime = 2.5f;
+    private float _lockedTill;
+    private int _currentState;
+    private bool _dance = false;
     
     private void Start() {
-        anim = GetComponent<Animator>();
         GameManager.Instance.eventManager.OnWin += OnWin;
-        playerCharacterController = GetComponent<PlayerCharacterController>();
     }
 
     private void OnDisable() {
@@ -30,29 +25,29 @@ public class PlayerAnimator : MonoBehaviour {
     }
 
     private void OnWin() {
-        dance = true;
+        _dance = true;
     }
 
     private void Update() {
         var state = GetState();
-        dance = false;
+        _dance = false;
 
-        if (state == currentState) return;
+        if (state == _currentState) return;
         anim.CrossFade(state, 0.1f, 0);
-        currentState = state;
+        _currentState = state;
     }
 
     private int GetState() {
-        if (Time.time < lockedTill) return currentState;
-        if (dance) return LockState(DancingHash, dancingTime);
-        if (playerCharacterController.isJumping) return JumpingHash;
-        if (playerCharacterController.isGrounded && playerCharacterController.isRunning) return RunningHash;
-        if (playerCharacterController.isGrounded) return playerCharacterController.intent.magnitude == 0f ? IdleHash : WalkingHash;
+        if (Time.time < _lockedTill) return _currentState;
+        if (_dance) return LockState(_dancingHash, dancingTime);
+        if (playerCharacterController.isJumping) return _jumpingHash;
+        if (playerCharacterController.isGrounded && playerCharacterController.isRunning) return _runningHash;
+        if (playerCharacterController.isGrounded) return playerCharacterController.intent.magnitude == 0f ? _idleHash : _walkingHash;
         
-        return IdleHash;
+        return _idleHash;
         
         int LockState(int s, float t) {
-            lockedTill = Time.time + t;
+            _lockedTill = Time.time + t;
             return s;
         }
     }

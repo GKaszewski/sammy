@@ -1,26 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
+using KBCore.Refs;
 using UnityEngine;
-using Random = UnityEngine.Random;
-
-public enum CrystalColor {
-    RED = 0,
-    BLUE = 1,
-    GREEN = 2,
-    YELLOW = 3,
-    ORANGE = 4,
-    PURPLE = 5,
-    MULTI,
-    NONE
-}
 
 public class Crystal : BaseCrystal {
     [SerializeField]
     [Range(0f, 1f)]
     private float rotationTime = 0.2f;
     [HideInInspector]
-    public Rigidbody rb;
+    [SerializeField, Self] private Rigidbody rb;
     
     public float force = 2f;
     public float resetRotationTimer = 10f;
@@ -29,11 +16,10 @@ public class Crystal : BaseCrystal {
     
     protected void Start() {
         base.Start();
-        rb = GetComponent<Rigidbody>();
     }
 
     public void Die() {
-        AudioManager.instance.Play("crystal break");
+        AudioManager.Instance.Play("crystal break");
         Destroy(gameObject);
     }
 
@@ -96,7 +82,7 @@ public class Crystal : BaseCrystal {
 
     private void OnCollisionEnter(Collision collision) {
         if (collision.collider.CompareTag("Ground")) {
-            AudioManager.instance.Play("crystal bounce");
+            AudioManager.Instance.Play("crystal bounce");
         }
     }
 }

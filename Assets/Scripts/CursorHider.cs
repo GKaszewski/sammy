@@ -2,30 +2,24 @@
 using UnityEngine;
 
 public class CursorHider : MonoBehaviour {
-    private bool cursorLocked;
+    private bool _cursorLocked;
 
     private void Start() {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        cursorLocked = true;
+        _cursorLocked = true;
     }
 
     private void Update() {
-        if (TCKInput.GetControllerActive("joystick")) {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            cursorLocked = false;
-            return;
-        }
-        if (Input.GetKeyDown(KeyCode.Escape) && !cursorLocked) {
+        if (Input.GetKeyDown(KeyCode.Escape) && !_cursorLocked) {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            cursorLocked = true;
+            _cursorLocked = true;
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && cursorLocked) {
+        else if (Input.GetKeyDown(KeyCode.Escape) && _cursorLocked) {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            cursorLocked = false;
+            _cursorLocked = false;
         }
     }
 }

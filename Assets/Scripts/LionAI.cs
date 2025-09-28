@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using KBCore.Refs;
 using UniRx;
 using Unity.Mathematics;
 using UnityEngine;
@@ -15,24 +16,24 @@ public enum AIState {
 }
 
 public class LionAI : MonoBehaviour {
-   private NavMeshAgent agent;
-   private float distanceFromPlayer;
-   private float attackTimer = 0f;
-   private int currentPatrolPoint = 0;
-   private Collider[] waspsDetectedColliders;
-   private Transform wasp;
-   private AIState previousStateBuffer;
-   private AIState previousState;
+   [SerializeField, Self] private NavMeshAgent agent;
+   private float _distanceFromPlayer;
+   private float _attackTimer = 0f;
+   private int _currentPatrolPoint = 0;
+   private Collider[] _waspsDetectedColliders;
+   private Transform _wasp;
+   private AIState _previousStateBuffer;
+   private AIState _previousState;
    private AIState _state;
-   private Vector3 fleePoint;
-   private Transform startTransform;
+   private Vector3 _fleePoint;
+   private Transform _startTransform;
 
    public AIState State {
       get => _state;
       set {
-         previousStateBuffer = previousState;
-         previousState = _state;
-         if (previousState == value) previousState = previousStateBuffer;
+         _previousStateBuffer = _previousState;
+         _previousState = _state;
+         if (_previousState == value) _previousState = _previousStateBuffer;
          _state = value;
          GameManager.Instance.eventManager.LionAIStateChange(this, value);
       }
@@ -58,7 +59,6 @@ public class LionAI : MonoBehaviour {
 
    private void Start() {
       GameManager.Instance.eventManager.SpawnLion(this);
-      agent = GetComponent<NavMeshAgent>();
       agent.stoppingDistance = attackRange;
       GoToWanderPoint();
    }
@@ -68,8 +68,8 @@ public class LionAI : MonoBehaviour {
    }
 
    private void Update() {
-      distanceFromPlayer = Vector3.Distance(transform.position, target.transform.position);
-      if (distanceFromPlayer <= attackRange) {
+      _distanceFromPlayer = Vector3.Distance(transform.position, target.transform.position);
+      if (_distanceFromPlayer <= attackRange) {
          State = AIState.ATTACKING;
       }
 
@@ -81,7 +81,7 @@ public class LionAI : MonoBehaviour {
          ResetAgentProperties();
       }
 
-      attackTimer += Time.deltaTime;
+      _attackTimer += Time.deltaTime;
       
       DetectWasps();
       
@@ -129,19 +129,19 @@ public class LionAI : MonoBehaviour {
    }
 
    private void DetectWasps() {
-      waspsDetectedColliders = Physics.OverlapSphere(transform.position, waspDetectionRadius, waspLayer);
-      if ( waspsDetectedColliders.Length > 0) {
-         wasp = waspsDetectedColliders
+      _waspsDetectedColliders = Physics.OverlapSphere(transform.position, waspDetectionRadius, waspLayer);
+      if ( _waspsDetectedColliders.Length > 0) {
+         _wasp = _waspsDetectedColliders
             .FirstOrDefault(_wasp => _wasp.GetComponentInParent<NavigatingWasp>() != null)?.transform.parent;
-         if (!wasp) {
-            if (State == AIState.FLEEING) State = previousState;
+         if (!_wasp) {
+            if (State == AIState.FLEEING) State = _previousState;
             return;
          }
-         var waspScript = wasp.GetComponent<NavigatingWasp>();
+         var waspScript = _wasp.GetComponent<NavigatingWasp>();
          if ( waspScript.target == transform) State = AIState.FLEEING;
       }
       else {
-         if (State == AIState.FLEEING) State = previousState;
+         if (State == AIState.FLEEING) State = _previousState;
       }
    }
 
@@ -176,22 +176,22 @@ public class LionAI : MonoBehaviour {
    }
 
    private void Flee() {
-      startTransform = transform;
-      var direction = (wasp.position - transform.position).normalized;
+      _startTransform = transform;
+      var direction = (_wasp.position - transform.position).normalized;
       transform.rotation = quaternion.LookRotation(-direction, Vector3.up);
-      fleePoint = transform.position + transform.forward * 5f;
+      _fleePoint = transform.position + transform.forward * 5f;
       NavMeshHit hit;
-      NavMesh.SamplePosition(fleePoint, out hit, 5f, 1 << NavMesh.GetAreaFromName("Walkable"));
-      transform.position = startTransform.position;
-      transform.rotation = startTransform.rotation;
+      NavMesh.SamplePosition(_fleePoint, out hit, 5f, 1 << NavMesh.GetAreaFromName("Walkable"));
+      transform.position = _startTransform.position;
+      transform.rotation = _startTransform.rotation;
       SetFleeingProperties();
       agent.SetDestination(hit.position);
    }
 
    private void GoToNextPoint() {
       if (patrolPoints.Length == 0) return;
-      agent.SetDestination(patrolPoints[currentPatrolPoint].position);
-      currentPatrolPoint = (currentPatrolPoint + 1) % patrolPoints.Length;
+      agent.SetDestination(patrolPoints[_currentPatrolPoint].position);
+      _currentPatrolPoint = (_currentPatrolPoint + 1) % patrolPoints.Length;
    }
 
    private void Chase() {
@@ -205,7 +205,7 @@ public class LionAI : MonoBehaviour {
    }
 
    private void Attack() {
-      if (attackTimer > attackRate) DoAttack();
+      if (_attackTimer > attackRate) DoAttack();
    }
 
    private void DoAttack() {
@@ -215,7 +215,7 @@ public class LionAI : MonoBehaviour {
          playerHealth.TakeDamage();
          playerHealth.Push(transform.forward);
       }
-      attackTimer = 0f;
+      _attackTimer = 0f;
    } 
 
    private void OnTriggerEnter(Collider other) {
@@ -225,7 +225,7 @@ public class LionAI : MonoBehaviour {
    }
 
    private void OnTriggerStay(Collider other) {
-      if (other.CompareTag("Player") && distanceFromPlayer > attackRange+0.5f) {
+      if (other.CompareTag("Player") && _distanceFromPlayer > attackRange+0.5f) {
          State = AIState.CHASING;
       }
    }
@@ -237,6 +237,6 @@ public class LionAI : MonoBehaviour {
    }
 
    private void OnDrawGizmos() {
-      Gizmos.DrawSphere(fleePoint, 1f);
+      Gizmos.DrawSphere(_fleePoint, 1f);
    }
 }

@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using KBCore.Refs;
 using UnityEngine;
 
 public class BaseCrystal : MonoBehaviour {
-    public CrystalColor color;
-    public MeshRenderer renderer;
+    [SerializeField, Child] private MeshRenderer renderer;
     
     [Tooltip("RED, BLUE, GREEN, YELLOW, ORANGE, PURPLE")]
-    public List<Material> crystalMaterials = new List<Material>();
+    [SerializeField] private List<Material> crystalMaterials = new();
 
+    public CrystalColor color;
+    
     protected void Start() {
-        renderer = GetComponentInChildren<MeshRenderer>();
         HandleMaterial();
     }
 

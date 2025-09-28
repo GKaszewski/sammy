@@ -1,18 +1,18 @@
 ﻿using System;
+using KBCore.Refs;
 using UnityEngine;
 
 public class MovingPlatformActivateWithCrystal : MovingPlatform {
     private Inventory inventory;
-    private MeshRenderer renderer;
 
     public CrystalColor activationCrystal;
     public Material[] platformMaterials;
     
     [SerializeField] private bool stayOnAfterActivation = false;
+    [SerializeField, Self] private MeshRenderer renderer;
     
     protected void Start() {
         base.Start();
-        renderer = GetComponent<MeshRenderer>();
         HandleMaterial();
     }
     protected void Update() {
