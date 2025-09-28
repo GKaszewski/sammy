@@ -66,7 +66,7 @@ public class PlayerHealth : Health {
         RemoveHeartFromUI();
         if (health <= 0) {
             ResetHealth();
-            inventory.wasps = 0;
+            inventory.DecreaseWasps();
             inventory.DropCrystal();
             lives--;
             GameManager.Instance.effectsManager.SpawnEffect(EffectType.DEATH, transform.position);

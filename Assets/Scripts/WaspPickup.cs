@@ -8,12 +8,12 @@ public class WaspPickup : MonoBehaviour {
     [SerializeField, Scene] private PlayerUIManager playerUIManager;
 
     private void ResetWaspsInInventory() {
-        inventory.wasps = 0;
+        inventory.SetWasps(0);
     }
 
     private void SetNewWasps(WaspData data) {
         inventory.currentWaspType = data.type;
-        inventory.wasps += data.quantity;
+        inventory.AddWasps(data.quantity);
         combatSystem.waspPrefab = data.prefab;
     }
 
@@ -30,7 +30,7 @@ public class WaspPickup : MonoBehaviour {
             return;
         }
 
-        inventory.wasps += waspData.quantity;
+        inventory.AddWasps(waspData.quantity);
         playerUIManager.SetWaspAvatar();
         Destroy(hit.gameObject);
     }

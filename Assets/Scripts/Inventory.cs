@@ -3,24 +3,25 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
     [SerializeField] public int points;
-    public int wasps = 10;
-    public ReactiveProperty<CrystalColor> reactiveCrystalInfo;
     public WaspType currentWaspType;
 
     public GameObject crystalPrefab;
     public Transform crystalSpawnPosition;
     [HideInInspector]
     public CrystalColor previousColor;
+    
+    private readonly ReactiveProperty<int> _wasps = new(10);
+    public IReadOnlyReactiveProperty<int> Wasps => _wasps;
+    public ReactiveProperty<CrystalColor> ReactiveCrystalInfo { get; } = new(CrystalColor.NONE);
 
     private void Start() {
-        reactiveCrystalInfo = new ReactiveProperty<CrystalColor>(CrystalColor.NONE);
-        reactiveCrystalInfo.Subscribe(color => GameManager.Instance.eventManager.ChangeCrystal(color));
+        ReactiveCrystalInfo.Subscribe(color => GameManager.Instance.eventManager.ChangeCrystal(color));
     }
     
     public void CollectPoints(int _points) {
         points += _points;
         if (points >= GameManager.Instance.maxPoints) {
-            reactiveCrystalInfo.Value = CrystalColor.MULTI;
+            ReactiveCrystalInfo.Value = CrystalColor.MULTI;
             AudioManager.Instance.Play("Won");
         }
         GameManager.Instance.eventManager.PickPointUp(points);
@@ -36,7 +37,8 @@ public class Inventory : MonoBehaviour {
     }
 
     public void DecreaseWasps() {
-        wasps--;
+        if (_wasps.Value <= 0) return;
+       _wasps.Value--;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit) {
@@ -44,31 +46,43 @@ public class Inventory : MonoBehaviour {
         var newCrystal = hit.gameObject.GetComponent<Crystal>();
         if (!newCrystal) return;
         AudioManager.Instance.Play("crystal pickup");
-        if (reactiveCrystalInfo.Value != CrystalColor.NONE && reactiveCrystalInfo.Value != CrystalColor.MULTI) {
-            var newColor = Crystal.Mix(reactiveCrystalInfo.Value, newCrystal.color);
+        if (ReactiveCrystalInfo.Value != CrystalColor.NONE && ReactiveCrystalInfo.Value != CrystalColor.MULTI) {
+            var newColor = Crystal.Mix(ReactiveCrystalInfo.Value, newCrystal.color);
             if (newColor == CrystalColor.NONE) {
-                var spawnedCrystal = SpawnCrystal(reactiveCrystalInfo.Value, crystalSpawnPosition.position + (transform.forward * 2f));
+                var spawnedCrystal = SpawnCrystal(ReactiveCrystalInfo.Value, crystalSpawnPosition.position + (transform.forward * 2f));
                 spawnedCrystal.player = transform;
                 spawnedCrystal.ApplyForce();
             }
             else
                 AudioManager.Instance.Play("crystal mix");
 
-            reactiveCrystalInfo.Value = newColor != CrystalColor.NONE ? newColor : newCrystal.color;
+            ReactiveCrystalInfo.Value = newColor != CrystalColor.NONE ? newColor : newCrystal.color;
         }
-        else if (reactiveCrystalInfo.Value == CrystalColor.NONE) {
-            reactiveCrystalInfo.Value = newCrystal.color;
+        else if (ReactiveCrystalInfo.Value == CrystalColor.NONE) {
+            ReactiveCrystalInfo.Value = newCrystal.color;
         }
-        GameManager.Instance.eventManager.PickCrystalUp(reactiveCrystalInfo.Value);
+        GameManager.Instance.eventManager.PickCrystalUp(ReactiveCrystalInfo.Value);
         newCrystal.Die();
     }
 
     public void DropCrystal() {
-        if (reactiveCrystalInfo.Value == CrystalColor.NONE) return;
-        var spawnedCrystal = SpawnCrystal(reactiveCrystalInfo.Value, crystalSpawnPosition.position + (transform.forward * 2f));
+        if (ReactiveCrystalInfo.Value == CrystalColor.NONE) return;
+        var spawnedCrystal = SpawnCrystal(ReactiveCrystalInfo.Value, crystalSpawnPosition.position + (transform.forward * 2f));
         spawnedCrystal.player = transform;
         spawnedCrystal.ApplyForceUp();
         AudioManager.Instance.Play("crystal spawn");
-        reactiveCrystalInfo.Value = CrystalColor.NONE;
+        ReactiveCrystalInfo.Value = CrystalColor.NONE;
+    }
+    
+    public void AddWasps(int amount) {
+        _wasps.Value += amount;
+        if (_wasps.Value > 99) _wasps.Value = 99;
+        AudioManager.Instance.Play("wasp pickup");
+    }
+    
+    public void SetWasps(int amount) {
+        _wasps.Value = amount;
+        if (_wasps.Value > 99) _wasps.Value = 99;
+        AudioManager.Instance.Play("wasp pickup");
     }
 }

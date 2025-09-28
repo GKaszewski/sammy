@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using KBCore.Refs;
+using Sammy.Interfaces;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour {
@@ -19,11 +22,14 @@ public class MovingPlatform : MonoBehaviour {
     private float _journeyLength;
     private bool _isWaiting;
     private int _currentWaypoint;
+    private IActivationStrategy _activationStrategy;
 
     public Transform[] waypoints;
     public bool isOn = false;
     
     protected void Start() {
+        TryGetComponent(out _activationStrategy);
+        
         _departTarget = waypoints[0];
         _destinationTarget = waypoints[1];
 
@@ -80,8 +86,13 @@ public class MovingPlatform : MonoBehaviour {
     }
 
     protected virtual void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Player")) {
-            _cc = other.gameObject.GetComponent<CharacterController>();
+        // if (other.CompareTag("Player")) {
+        //     _cc = other.gameObject.GetComponent<CharacterController>();
+        // }
+
+        if (_activationStrategy != null && _activationStrategy.ShouldActivate(other))
+        {
+            isOn = true;
         }
     }
 

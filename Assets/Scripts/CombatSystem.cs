@@ -12,7 +12,7 @@ public class CombatSystem : MonoBehaviour {
     
     private void Update() {
         Debug.DrawRay(transform.position, transform.forward * 10f, Color.green);
-        if (Input.GetButtonDown("Fire1") && inventory.wasps > 0) {
+        if (Input.GetButtonDown("Fire1") && inventory.Wasps.Value > 0) {
             Shoot();
             inventory.DecreaseWasps();
         }

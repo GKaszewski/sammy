@@ -56,6 +56,8 @@ public class LionAI : MonoBehaviour {
 
    public Transform[] patrolPoints;
    public LayerMask waspLayer;
+   
+   public NavMeshAgent Agent => agent;
 
    private void Start() {
       GameManager.Instance.eventManager.SpawnLion(this);

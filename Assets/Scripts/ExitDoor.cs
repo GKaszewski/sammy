@@ -16,7 +16,7 @@ public class ExitDoor : Door {
         var playerInventory = other.GetComponent<Inventory>();
         if (!playerInventory) return;
 
-        if (playerInventory.points >= pointsToUnlock || playerInventory.reactiveCrystalInfo.Value == CrystalColor.MULTI) {
+        if (playerInventory.points >= pointsToUnlock || playerInventory.ReactiveCrystalInfo.Value == CrystalColor.MULTI) {
             Open();
         }
     }

@@ -21,13 +21,21 @@ public class InfoUI : MonoBehaviour {
   public bool showInfo = false;
   public bool showInfoOnStart = false;
 
-  private async void Start() {
-    if (!showInfo) Hide();
-    if (showInfoOnStart) {
-      await Task.Delay(TimeSpan.FromSeconds(delayBeforeShowing));
-      Show();
+  private async void Start()
+  {
+    try
+    {
+      if (!showInfo) Hide();
+      if (showInfoOnStart) {
+        await Task.Delay(TimeSpan.FromSeconds(delayBeforeShowing));
+        Show();
+      }
+      infoText.text = data;
     }
-    infoText.text = data;
+    catch (Exception e)
+    {
+      Debug.LogError($"Error in InfoUI Start: {e.Message}");
+    }
   }
 
   private void Update() {
@@ -37,7 +45,7 @@ public class InfoUI : MonoBehaviour {
     }
   }
 
-  private async void Show() {
+  private async Task Show() {
     isShowing = true;
     LeanTween.cancel(infoUI);
     transform.localPosition = showPosition;

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using KBCore.Refs;
 using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 public class PlayerUIManager : MonoBehaviour {
-      private Inventory inventory;
+      private Inventory _inventory;
+      
       public CrystalColor currentCrystal = CrystalColor.NONE;
       
       public Image currentCrystalImage;
@@ -26,9 +29,13 @@ public class PlayerUIManager : MonoBehaviour {
       public TMP_Text waspCount;
       public Image waspAvatar;
 
+      [Inject]
+      public void Construct(Inventory inventory)
+      {
+            _inventory = inventory;
+      }
+      
       private void Start() {
-            inventory = FindObjectOfType<Inventory>();
-            
             currentPointsText.text = $"0";
             maxPointsText.text = $"{GameManager.Instance.maxPoints}";
             HandleCrystal(CrystalColor.NONE);
@@ -42,21 +49,16 @@ public class PlayerUIManager : MonoBehaviour {
             platformVersionText.richText = true;
             platformVersionText.text = $"<b>{projectName}</b> - {platform} - {version}";
 
-            UpdateWaspUI();
-      }
-
-      public void UpdateWaspUI() {
-            waspCount.text = inventory.wasps.ToString();
-            SetWaspAvatar();
-      }
-
-      private void Update() {
-            waspInfo.SetActive(inventory.wasps != 0);
-            waspCount.text = inventory.wasps.ToString();
+            _inventory.Wasps.Subscribe(newWaspCount =>
+            {
+                  waspCount.text = newWaspCount.ToString();
+                  waspInfo.SetActive(newWaspCount > 0);
+            })
+            .AddTo(this);
       }
 
       public void SetWaspAvatar() {
-            switch (inventory.currentWaspType) {
+            switch (_inventory.currentWaspType) {
                   case WaspType.BASIC:
                         waspAvatar.sprite = waspsAvatars[0];
                         break;

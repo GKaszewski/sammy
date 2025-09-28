@@ -18,7 +18,7 @@ public class MovingPlatformActivateWithCrystal : MovingPlatform {
     protected void Update() {
         base.Update();
         if (inventory) {
-            var hasCorrectCrystal = inventory.reactiveCrystalInfo.Value == activationCrystal || inventory.reactiveCrystalInfo.Value == CrystalColor.MULTI;
+            var hasCorrectCrystal = inventory.ReactiveCrystalInfo.Value == activationCrystal || inventory.ReactiveCrystalInfo.Value == CrystalColor.MULTI;
             if (isOn && isMoving && !hasCorrectCrystal) isOn = false;
         }
     }
@@ -49,7 +49,7 @@ public class MovingPlatformActivateWithCrystal : MovingPlatform {
     private void ActivatePlatform(Collider other) {
         if (other.CompareTag("Player")) {
             inventory = other.GetComponent<Inventory>();
-            if (inventory.reactiveCrystalInfo.Value == activationCrystal || inventory.reactiveCrystalInfo.Value == CrystalColor.MULTI) isOn = true;
+            if (inventory.ReactiveCrystalInfo.Value == activationCrystal || inventory.ReactiveCrystalInfo.Value == CrystalColor.MULTI) isOn = true;
         }
     }
 

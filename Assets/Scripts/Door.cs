@@ -92,9 +92,9 @@ public class Door : MonoBehaviour {
 
     private void DestroyCrystal() {
         if (playerInventory) {
-            if (playerInventory.reactiveCrystalInfo.Value == CrystalColor.MULTI) return;
+            if (playerInventory.ReactiveCrystalInfo.Value == CrystalColor.MULTI) return;
             AudioManager.Instance.Play("crystal break");
-            playerInventory.reactiveCrystalInfo.Value = CrystalColor.NONE;
+            playerInventory.ReactiveCrystalInfo.Value = CrystalColor.NONE;
             doorColor = CrystalColor.NONE;
             HandleMaterial();
         }
@@ -107,8 +107,8 @@ public class Door : MonoBehaviour {
     }
 
     private void ReturnCrystal() {
-        if (playerInventory && playerInventory.reactiveCrystalInfo.Value != CrystalColor.MULTI && doorType == DoorType.OPEN_AND_HOLD)
-            playerInventory.reactiveCrystalInfo.Value = doorColor;
+        if (playerInventory && playerInventory.ReactiveCrystalInfo.Value != CrystalColor.MULTI && doorType == DoorType.OPEN_AND_HOLD)
+            playerInventory.ReactiveCrystalInfo.Value = doorColor;
     }
 
     private void MoveCrystalTowardsDoors() {
@@ -132,8 +132,8 @@ public class Door : MonoBehaviour {
         AudioManager.Instance.Play("door open");
         LeanTween.cancel(gameObject);
         if (doorType == DoorType.OPEN_AND_HOLD) {
-            playerInventory.previousColor = playerInventory.reactiveCrystalInfo.Value;
-            playerInventory.reactiveCrystalInfo.Value = CrystalColor.NONE;
+            playerInventory.previousColor = playerInventory.ReactiveCrystalInfo.Value;
+            playerInventory.ReactiveCrystalInfo.Value = CrystalColor.NONE;
             MoveCrystalTowardsDoors();
             LeanTween.move(gameObject, openDestination, openDistance / movementTime).setEaseLinear()
                 .setOnComplete(DestroyCrystal);
@@ -156,8 +156,8 @@ public class Door : MonoBehaviour {
         var playerInventory = other.GetComponent<Inventory>();
         if (!playerInventory) return;
         this.playerInventory = playerInventory;
-        if (!areOpen && (playerInventory.reactiveCrystalInfo.Value == doorColor ||
-                         playerInventory.reactiveCrystalInfo.Value == CrystalColor.MULTI)) Open();
+        if (!areOpen && (playerInventory.ReactiveCrystalInfo.Value == doorColor ||
+                         playerInventory.ReactiveCrystalInfo.Value == CrystalColor.MULTI)) Open();
     }
 
     private void OnTriggerEnter(Collider other) {

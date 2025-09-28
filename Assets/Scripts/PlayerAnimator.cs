@@ -1,5 +1,6 @@
 ﻿using KBCore.Refs;
 using UnityEngine;
+using VContainer;
 
 public class PlayerAnimator : MonoBehaviour {
     [SerializeField, Self] private Animator anim;
@@ -15,13 +16,20 @@ public class PlayerAnimator : MonoBehaviour {
     private float _lockedTill;
     private int _currentState;
     private bool _dance = false;
+    private EventManager _eventManager;
+
+    [Inject]
+    public void Construct(EventManager eventManager)
+    {
+        _eventManager = eventManager;
+    }
     
     private void Start() {
-        GameManager.Instance.eventManager.OnWin += OnWin;
+        _eventManager.OnWin += OnWin;
     }
 
     private void OnDisable() {
-        GameManager.Instance.eventManager.OnWin -= OnWin;
+        _eventManager.OnWin -= OnWin;
     }
 
     private void OnWin() {

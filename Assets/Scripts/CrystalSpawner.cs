@@ -21,7 +21,7 @@ public class CrystalSpawner : MonoBehaviour {
                 InvokeRepeating(nameof(Spawn), 0f, spawnRate);
         }
 
-        private async void Spawn() {
+        private async Task Spawn() {
                 if (!isActive) return;
                 if (randomColor) color = (CrystalColor) Random.Range(0, 6);
                 var newCrystal = Instantiate(crystalPrefab, spawnPosition.position, Quaternion.identity)
