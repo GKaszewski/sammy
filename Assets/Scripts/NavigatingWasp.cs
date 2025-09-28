@@ -15,7 +15,7 @@ public class NavigatingWasp : Wasp {
         if (!target) return;
         var direction = (target.position - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
-        rb.velocity = direction * speed;
+        rb.linearVelocity = direction * speed;
     }
 
     private void OnTriggerEnter(Collider other) {

@@ -25,7 +25,7 @@ public class CombatSystem : MonoBehaviour {
         var wasp = Instantiate(waspPrefab, waspSpawner.position,
             quaternion.LookRotation(transform.forward, Vector3.up));
         var rb = wasp.GetComponent<Rigidbody>();
-        if (rb) rb.velocity = transform.forward * wasp.GetComponent<Wasp>().speed;
+        if (rb) rb.linearVelocity = transform.forward * wasp.GetComponent<Wasp>().speed;
     }
 
     private void Shoot() {
