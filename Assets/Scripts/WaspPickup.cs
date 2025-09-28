@@ -1,11 +1,18 @@
 using System;
 using KBCore.Refs;
 using UnityEngine;
+using VContainer;
 
 public class WaspPickup : MonoBehaviour {
+    private PlayerUIManager _playerUIManager;
+    
     [SerializeField, Self] private Inventory inventory;
     [SerializeField, Self] private CombatSystem combatSystem;
-    [SerializeField, Scene] private PlayerUIManager playerUIManager;
+    
+    [Inject]
+    public void Construct(PlayerUIManager playerUIManager) {
+        _playerUIManager = playerUIManager;
+    }
 
     private void ResetWaspsInInventory() {
         inventory.SetWasps(0);
@@ -25,13 +32,13 @@ public class WaspPickup : MonoBehaviour {
         if (currentType != waspData.type) {
             ResetWaspsInInventory();
             SetNewWasps(waspData);
-            playerUIManager.SetWaspAvatar();
+            _playerUIManager.SetWaspAvatar();
             Destroy(hit.gameObject);
             return;
         }
 
         inventory.AddWasps(waspData.quantity);
-        playerUIManager.SetWaspAvatar();
+        _playerUIManager.SetWaspAvatar();
         Destroy(hit.gameObject);
     }
 }

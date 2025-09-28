@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 3702423925355562062}
   - component: {fileID: 6880751394884906192}
   - component: {fileID: 8007232017308761589}
+  - component: {fileID: 2975138963925967865}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -293,11 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 0
-  wasps: 10
-  reactiveCrystalInfo:
-    value: 7
   currentWaspType: 0
-  crystalPrefab: {fileID: 7637454883208682958, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
   crystalSpawnPosition: {fileID: 266553927681651702}
   previousColor: 0
 --- !u!114 &266553929040427445
@@ -312,6 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71003a6ccfedab74ebef39ef85bb5839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cc: {fileID: 4759722207939493}
   intent: {x: 0, y: 0, z: 0}
   walkSpeed: 5
   runSpeed: 7
@@ -370,6 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37b8e9b416f471b4bacf6c38211acfe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 266553929040427447}
   waspSpawner: {fileID: 1278854138}
   waspPrefab: {fileID: 1466485618119808524, guid: 0bb88fb0baec5864c85fa103b017803f, type: 3}
 --- !u!114 &3484927581355335137
@@ -385,6 +384,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 4
+  playerController: {fileID: 266553929040427445}
+  crystalHandler: {fileID: 2975138963925967865}
+  inventory: {fileID: 266553929040427447}
   lives: 5
   maxLives: 5
   maxHealth: 4
@@ -431,6 +433,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54d04e80f7c093e46baf9537c241c154, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 266553929040427447}
+  combatSystem: {fileID: 4759722207939501}
+  playerUIManager: {fileID: 0}
+--- !u!114 &2975138963925967865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267550637794264221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8db505784b334eff8ca138255444bc7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sammy.PlayerCrystalHandler
+  crystalPrefab: {fileID: 7637454883208682958, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
 --- !u!1 &3451566357476000118
 GameObject:
   m_ObjectHideFlags: 0
