@@ -40,39 +40,6 @@ public class Crystal : BaseCrystal {
         yield return new WaitForSeconds(resetRotationTimer);
         ResetRotation();
     }
-    
-    public static CrystalColor Mix(CrystalColor color, CrystalColor otherCrystal) {
-        switch (color) {
-            case CrystalColor.RED:
-                switch (otherCrystal) {
-                    case CrystalColor.BLUE:
-                        return CrystalColor.PURPLE;
-                    case CrystalColor.YELLOW:
-                        return CrystalColor.ORANGE;
-                }
-                break;
-            case CrystalColor.BLUE:
-                switch (otherCrystal) {
-                    case CrystalColor.RED:
-                        return CrystalColor.PURPLE;
-                    case CrystalColor.YELLOW:
-                        return CrystalColor.GREEN;
-                }
-                break;
-            case CrystalColor.YELLOW:
-                switch (otherCrystal) {
-                    case CrystalColor.BLUE:
-                        return CrystalColor.GREEN;
-                    case CrystalColor.RED:
-                        return CrystalColor.ORANGE;
-                }
-                break;
-            case CrystalColor.MULTI:
-                return CrystalColor.MULTI;
-        }
-
-        return CrystalColor.NONE;
-    }
 
     private void OnCollisionEnter(Collision collision) {
         if (collision.collider.CompareTag("Ground")) {

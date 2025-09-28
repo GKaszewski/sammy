@@ -1,11 +1,14 @@
 ﻿using System;
+using KBCore.Refs;
+using Sammy;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerHealth : Health {
-    private PlayerCharacterController playerController;
-    private Inventory inventory;
+    [SerializeField, Self] private PlayerCharacterController playerController;
+    [SerializeField, Self] private PlayerCrystalHandler crystalHandler;
+    [SerializeField, Self] private Inventory inventory;
     public int lives = 5;
     public int maxLives = 5;
     public int maxHealth = 4;
@@ -16,8 +19,6 @@ public class PlayerHealth : Health {
     public float pushForce = 2f;
     
     private void Start() {
-        inventory = GetComponent<Inventory>();
-        playerController = GetComponent<PlayerCharacterController>();
         ResetLives();
     }
 
@@ -67,7 +68,7 @@ public class PlayerHealth : Health {
         if (health <= 0) {
             ResetHealth();
             inventory.DecreaseWasps();
-            inventory.DropCrystal();
+            crystalHandler.DropCrystal();
             lives--;
             GameManager.Instance.effectsManager.SpawnEffect(EffectType.DEATH, transform.position);
             transform.position = spawnpoint.position;

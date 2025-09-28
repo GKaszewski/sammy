@@ -1,3 +1,4 @@
+using Sammy;
 using VContainer;
 using VContainer.Unity;
 
@@ -16,5 +17,6 @@ public class GameLifetimeScope : LifetimeScope
         builder.RegisterInstance(inventory);
         
         builder.Register<EventManager>(Lifetime.Singleton);
+        builder.Register<CrystalManager>(Lifetime.Singleton);
     }
 }
