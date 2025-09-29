@@ -7542,6 +7542,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1368087755}
     - target: {fileID: 7613293221349829027, guid: 7b78cec8c84fe9948b15ae00f5162553, type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 131760442}
+    - target: {fileID: 7613293221349829027, guid: 7b78cec8c84fe9948b15ae00f5162553, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 1368087755}
@@ -7557,6 +7561,10 @@ PrefabInstance:
       propertyPath: playerMover
       value: 
       objectReference: {fileID: 1368087771}
+    - target: {fileID: 7613293221349829027, guid: 7b78cec8c84fe9948b15ae00f5162553, type: 3}
+      propertyPath: rotationSpeed
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 7613293221349829027, guid: 7b78cec8c84fe9948b15ae00f5162553, type: 3}
       propertyPath: playerCharacterController
       value: 
@@ -8368,6 +8376,10 @@ PrefabInstance:
       propertyPath: cameraParent
       value: 
       objectReference: {fileID: 131760442}
+    - target: {fileID: 5882603565957436880, guid: 3be1bb76359a3a64ca0ab2dd2aa67986, type: 3}
+      propertyPath: rotationSpeed
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

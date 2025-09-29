@@ -75,8 +75,7 @@ public class PlayerCharacterController : MonoBehaviour {
         won = true;
     }
 
-    private void Update() {
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    private async void Update() {
         ccIsGrounded = cc.isGrounded;
         
         HandleCamera();
@@ -87,7 +86,7 @@ public class PlayerCharacterController : MonoBehaviour {
         RestartStaminaWithKey();
 
         CheckGround();
-        CheckIfWasRecentlyGrounded();
+        await CheckIfWasRecentlyGrounded();
         CalculateMovement();
         ApplyGravity();
         HandleJumping();

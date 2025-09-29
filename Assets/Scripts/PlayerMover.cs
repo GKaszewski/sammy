@@ -45,13 +45,10 @@ namespace Sammy
             CheckGround();
             
             IsRunning = playerStamina.CanRun;
-            var currentSpeed = IsRunning ? runSpeed : walkSpeed;
             
             if (!_isKnocked)
             {
-                Intent = (_camF * playerInput.MoveInput.y + _camR * playerInput.MoveInput.x).normalized;
-                var velocityXZ = Intent * currentSpeed;
-                _velocity = new Vector3(velocityXZ.x, _velocity.y, velocityXZ.z);
+                CalculateMovement();
             }
             
             ApplyGravity();
@@ -106,6 +103,14 @@ namespace Sammy
             _camR.y = 0;
             _camF = _camF.normalized;
             _camR = _camR.normalized;
+        }
+
+        private void CalculateMovement()
+        {
+            var currentSpeed = IsRunning ? runSpeed : walkSpeed;
+            var velocityXZ = transform.forward * (playerInput.MoveInput.y * currentSpeed);
+            _velocity = new Vector3(velocityXZ.x, _velocity.y, velocityXZ.z);
+            Intent = transform.forward * playerInput.MoveInput.y;
         }
     }
 }

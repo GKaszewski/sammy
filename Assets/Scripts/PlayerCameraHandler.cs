@@ -1,3 +1,4 @@
+using Sammy.Models;
 using UnityEngine;
 using VContainer;
 
@@ -26,11 +27,11 @@ namespace Sammy
             }
         }
         
-        private void HandleQuickTurn(float direction)
+        private void HandleQuickTurn(QuickTurnDirection direction)
         {
             AudioManager.Instance.Play("quickturn");
 
-            var angle = 90f * direction;
+            var angle = 90f * (int)direction;
 
             LeanTween.rotateAroundLocal(gameObject, Vector3.up, angle, quickRotationTime);
             LeanTween.rotateAroundLocal(playerTransform.gameObject, Vector3.up, angle, quickRotationTime);
