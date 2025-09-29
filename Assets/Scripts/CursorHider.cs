@@ -1,5 +1,4 @@
-﻿using TouchControlsKit;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CursorHider : MonoBehaviour {
     private bool _cursorLocked;
