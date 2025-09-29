@@ -81,7 +81,7 @@ namespace Sammy
         {
             IsJumping = _velocity.y > 0 && !IsGrounded;
         
-            if (playerInput.JumpInputDown && IsGrounded)
+            if (playerInput.IsJumpPressed && IsGrounded)
             {
                 _velocity.y = jumpForce;
             }

@@ -23,7 +23,7 @@ namespace Sammy
 
         private void Update()
         {
-            CanRun = playerInput.RunInput && _currentStamina > 0f && playerInput.MoveInput.y > 0f;
+            CanRun = playerInput.IsRunHeld && _currentStamina > 0f && playerInput.MoveInput.y > 0f;
 
             if (CanRun)
             {
