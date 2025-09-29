@@ -6,6 +6,7 @@ using UniRx;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
+using VContainer;
 
 public enum AIState {
    IDLE,
@@ -28,6 +29,7 @@ public class LionAI : MonoBehaviour {
    private AIState _state;
    private Vector3 _fleePoint;
    private Transform _startTransform;
+   private EventManager _eventManager;
    
    public StateMachine StateMachine { get; private set; }
 
@@ -38,7 +40,7 @@ public class LionAI : MonoBehaviour {
          _previousState = _state;
          if (_previousState == value) _previousState = _previousStateBuffer;
          _state = value;
-         GameManager.Instance.eventManager.LionAIStateChange(this, value);
+         _eventManager.LionAIStateChange(this, value);
       }
    }
    
@@ -61,18 +63,23 @@ public class LionAI : MonoBehaviour {
    public LayerMask waspLayer;
    
    public NavMeshAgent Agent => agent;
+   
+   [Inject]
+   private void Construct(EventManager eventManager) {
+      _eventManager = eventManager;
+   }
 
    private void Start() {
       StateMachine = new StateMachine();
       // StateMachine.ChangeState(new IdleState(this));
       
-      GameManager.Instance.eventManager.SpawnLion(this);
+      _eventManager.SpawnLion(this);
       agent.stoppingDistance = attackRange;
       GoToWanderPoint();
    }
 
    private void OnDestroy() {
-      GameManager.Instance.eventManager.DestroyLion(this);
+      _eventManager.DestroyLion(this);
    }
 
    private void Update() {
@@ -219,10 +226,10 @@ public class LionAI : MonoBehaviour {
    }
 
    private void DoAttack() {
-      GameManager.Instance.eventManager.LionAttack();
+      _eventManager.LionAttack();
       var playerHealth = target.GetComponent<PlayerHealth>();
       if (playerHealth) {
-         playerHealth.TakeDamage();
+         playerHealth.TakeDamage(1);
          playerHealth.Push(transform.forward);
       }
       _attackTimer = 0f;

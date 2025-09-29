@@ -2,15 +2,25 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VContainer;
 
 public class WinPad : MonoBehaviour {
-    public float waitTime = 2.5f;
+    [SerializeField] private float waitTime = 2.5f;
+    
+    private EventManager _eventManager;
+
+    [Inject]
+    private void Construct(EventManager eventManager)
+    {
+        _eventManager = eventManager;
+    }
+    
     private async void OnControllerColliderHit(ControllerColliderHit hit)
     {
         try
         {
             if (hit.collider.CompareTag("WinPad")) {
-                GameManager.Instance.eventManager.Win();
+                _eventManager.Win();
                 await Task.Delay(TimeSpan.FromSeconds(waitTime));
                 var nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
                 SceneManager.LoadScene(nextIndex);

@@ -1,12 +1,12 @@
-﻿using System;
-using KBCore.Refs;
+﻿using KBCore.Refs;
 using Sammy;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VContainer;
 
 public class PlayerHealth : Health {
-    [SerializeField, Self] private PlayerCharacterController playerController;
+    [SerializeField, Self] private PlayerMover playerMover;
     [SerializeField, Self] private PlayerCrystalHandler crystalHandler;
     [SerializeField, Self] private Inventory inventory;
     public int lives = 5;
@@ -17,6 +17,15 @@ public class PlayerHealth : Health {
     public TMP_Text livesText;
 
     public float pushForce = 2f;
+    
+    private PlayerUIManager _playerUIManager;
+    private EffectsManager _effectsManager;
+    
+    [Inject]
+    private void Construct(PlayerUIManager playerUIManager, EffectsManager effectsManager) { 
+        _playerUIManager = playerUIManager;
+        _effectsManager = effectsManager;
+    }
     
     private void Start() {
         ResetLives();
@@ -31,15 +40,15 @@ public class PlayerHealth : Health {
     }
 
     private void AddHeartToUI() {
-        var heart = GameManager.Instance.playerUIManager.heartPrefab;
-        var heartsList = GameManager.Instance.playerUIManager.heartsList;
+        var heart = _playerUIManager.heartPrefab;
+        var heartsList = _playerUIManager.heartsList;
         var newHeart = Instantiate(heart);
         newHeart.transform.SetParent(heartsList.transform);
         newHeart.GetComponent<RectTransform>().localScale = Vector3.one;
     }
     
     private void RemoveHeartFromUI() {
-        var uiManager = GameManager.Instance.playerUIManager;
+        var uiManager = _playerUIManager;
         var heartsList = uiManager.heartsList;
         if (heartsList.transform.childCount <= 0) return;
         var heart = heartsList.transform.GetChild(0);
@@ -59,10 +68,10 @@ public class PlayerHealth : Health {
     }
 
     public void Push(Vector3 direction) {
-        playerController.Knockback(direction * pushForce);
+        _ = playerMover.Knockback(direction * pushForce);
     }
 
-    public override void TakeDamage(int damage = 1){
+    public override void TakeDamage(int damage){
         base.TakeDamage(damage);
         RemoveHeartFromUI();
         if (health <= 0) {
@@ -70,7 +79,7 @@ public class PlayerHealth : Health {
             inventory.DecreaseWasps();
             crystalHandler.DropCrystal();
             lives--;
-            GameManager.Instance.effectsManager.SpawnEffect(EffectType.DEATH, transform.position);
+            _effectsManager.SpawnEffect(EffectType.DEATH, transform.position);
             transform.position = spawnpoint.position;
         }
     }

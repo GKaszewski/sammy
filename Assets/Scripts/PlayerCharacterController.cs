@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using KBCore.Refs;
 using UnityEngine;
+using VContainer;
 
 public class PlayerCharacterController : MonoBehaviour {
     [SerializeField, Self] private CharacterController cc;
@@ -49,15 +50,25 @@ public class PlayerCharacterController : MonoBehaviour {
 
     public Transform cameraParent;
     public LayerMask groundDetectionLayerMask;
+    
+    private EventManager _eventManager;
+    private EffectsManager _effectsManager;
+
+    [Inject]
+    private void Construct(EventManager eventManager, EffectsManager effectsManager)
+    {
+        _eventManager = eventManager;
+        _effectsManager = effectsManager;
+    }
 
     private void Start() {
         currentSpeed = walkSpeed;
         currentStamina = maxStamina;
-        GameManager.Instance.eventManager.OnWin += OnWin;
+        _eventManager.OnWin += OnWin;
     }
 
     private void OnDisable() {
-        GameManager.Instance.eventManager.OnWin -= OnWin;
+        _eventManager.OnWin -= OnWin;
     }
 
     private void OnWin() {
@@ -82,7 +93,7 @@ public class PlayerCharacterController : MonoBehaviour {
         HandleJumping();
 
         if (cc.isGrounded && !wasRecentlyGrounded) {
-            GameManager.Instance.effectsManager.SpawnEffect(EffectType.JUMP, feet.position);
+            _effectsManager.SpawnEffect(EffectType.JUMP, feet.position);
         }
         
         if (won) return;
@@ -167,7 +178,7 @@ public class PlayerCharacterController : MonoBehaviour {
 
         if (Input.GetButtonDown("Quick turn")) {
             AudioManager.Instance.Play("quickturn");
-            GameManager.Instance.effectsManager.SpawnEffect(EffectType.RUN, feet.position);
+            _effectsManager.SpawnEffect(EffectType.RUN, feet.position);
             QuickTurn(90f);
         }
     }
@@ -184,7 +195,7 @@ public class PlayerCharacterController : MonoBehaviour {
             currentSpeed = runSpeed;
             currentStamina -= Time.time * Time.deltaTime;
             if ((int) currentStamina % 5 == 0) {
-                GameManager.Instance.effectsManager.SpawnEffect(EffectType.RUN, feet.position);
+                _effectsManager.SpawnEffect(EffectType.RUN, feet.position);
             }
         }
         else {
@@ -211,7 +222,7 @@ public class PlayerCharacterController : MonoBehaviour {
     public void Knockback(Vector3 direction) {
         isKnocked = true;
         velocity = direction;
-        GameManager.Instance.effectsManager.SpawnEffect(EffectType.HIT, transform.position);
+        _effectsManager.SpawnEffect(EffectType.HIT, transform.position);
         cc.Move(direction);
         Task.Delay(TimeSpan.FromSeconds(knockbackTime)).ContinueWith((task) => {
             isKnocked = false;

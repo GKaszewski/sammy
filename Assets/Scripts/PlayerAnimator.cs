@@ -1,10 +1,11 @@
 ﻿using KBCore.Refs;
+using Sammy;
 using UnityEngine;
 using VContainer;
 
 public class PlayerAnimator : MonoBehaviour {
     [SerializeField, Self] private Animator anim;
-    [SerializeField, Self] private PlayerCharacterController playerCharacterController;
+    [SerializeField, Self] private PlayerMover playerMover;
     [SerializeField] private float dancingTime = 2.5f;
     
     private readonly int _idleHash = Animator.StringToHash("Idle");
@@ -45,9 +46,9 @@ public class PlayerAnimator : MonoBehaviour {
     private int GetState() {
         if (Time.time < _lockedTill) return _currentState;
         if (_dance) return LockState(_dancingHash, dancingTime);
-        if (playerCharacterController.isJumping) return _jumpingHash;
-        if (playerCharacterController.isGrounded && playerCharacterController.isRunning) return _runningHash;
-        if (playerCharacterController.isGrounded) return playerCharacterController.intent.magnitude == 0f ? _idleHash : _walkingHash;
+        if (playerMover.IsJumping) return _jumpingHash;
+        if (playerMover.IsGrounded && playerMover.IsRunning) return _runningHash;
+        if (playerMover.IsGrounded) return playerMover.Intent.magnitude == 0f ? _idleHash : _walkingHash;
         
         return _idleHash;
         

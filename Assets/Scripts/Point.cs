@@ -1,12 +1,21 @@
 ﻿using System;
 using UnityEngine;
+using VContainer;
 using Random = UnityEngine.Random;
 
 public class Point : MonoBehaviour {
+    private EffectsManager _effectsManager;
+    
     public int points;
     public float bounceLength = 3f;
     public float bounceTime = 2f;
     public float variation = 0.2f;
+
+    [Inject]
+    private void Construct(EffectsManager effectsManager)
+    {
+        _effectsManager = effectsManager;
+    }
 
     private void Start() {
         var random = Random.Range(-variation, variation);
@@ -23,7 +32,7 @@ public class Point : MonoBehaviour {
         if (!inventory) return;
         
         AudioManager.Instance.Play("points pickup");
-        GameManager.Instance.effectsManager.SpawnEffect(EffectType.POOF, transform.position);
+        _effectsManager.SpawnEffect(EffectType.POOF, transform.position);
         inventory.CollectPoints(points);
         Die();
     }

@@ -9,6 +9,7 @@ using VContainer;
 public class PlayerUIManager : MonoBehaviour
 {
     private Inventory _inventory;
+    private EventManager _eventManager;
 
     public CrystalColor currentCrystal = CrystalColor.NONE;
 
@@ -30,9 +31,11 @@ public class PlayerUIManager : MonoBehaviour
     public Image waspAvatar;
 
     [Inject]
-    public void Construct(Inventory inventory)
+    public void Construct(Inventory inventory, EventManager eventManager)
     {
         _inventory = inventory;
+        _eventManager = eventManager;
+        
         _inventory.Wasps.Subscribe(newWaspCount =>
             {
                 waspCount.text = newWaspCount.ToString();
@@ -46,8 +49,8 @@ public class PlayerUIManager : MonoBehaviour
         currentPointsText.text = $"0";
         maxPointsText.text = $"{GameManager.Instance.maxPoints}";
         HandleCrystal(CrystalColor.NONE);
-        GameManager.Instance.eventManager.OnCrystalChange += HandleCrystal;
-        GameManager.Instance.eventManager.OnPointPickup += HandlePoints;
+        _eventManager.OnCrystalChange += HandleCrystal;
+        _eventManager.OnPointPickup += HandlePoints;
 
         var projectName = Application.productName;
         var platform = Application.platform.ToString();

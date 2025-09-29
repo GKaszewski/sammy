@@ -1,9 +1,19 @@
 using UnityEngine;
+using VContainer;
 
 public class Wasp : MonoBehaviour {
-    public float livingTime = 5f;
-    public int damage = 1;
     public float speed = 10f;
+    
+    [SerializeField] private float livingTime = 5f;
+    [SerializeField] private int damage = 1;
+
+    private EffectsManager _effectsManager;
+
+    [Inject]
+    private void Construct(EffectsManager effectsManager)
+    {
+        _effectsManager = effectsManager;
+    }
 
     protected void Start() {
         AudioManager.Instance.Play("fly flying");
@@ -15,7 +25,7 @@ public class Wasp : MonoBehaviour {
             
             var obj = collision.collider.gameObject;
             obj.GetComponent<EnemyHealth>()?.TakeDamage(damage);
-            GameManager.Instance.effectsManager.SpawnEffect(EffectType.HIT, transform.position);
+            _effectsManager.SpawnEffect(EffectType.HIT, transform.position);
             Destroy(gameObject);
         }
         Destroy(gameObject);

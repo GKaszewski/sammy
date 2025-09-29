@@ -1,5 +1,6 @@
 using UniRx;
 using UnityEngine;
+using VContainer;
 
 public class Inventory : MonoBehaviour {
     [SerializeField] public int points;
@@ -12,9 +13,17 @@ public class Inventory : MonoBehaviour {
     private readonly ReactiveProperty<int> _wasps = new(10);
     public IReadOnlyReactiveProperty<int> Wasps => _wasps;
     public ReactiveProperty<CrystalColor> ReactiveCrystalInfo { get; } = new(CrystalColor.NONE);
+    
+    private EventManager _eventManager;
+
+    [Inject]
+    private void Construct(EventManager eventManager)
+    {
+        _eventManager = eventManager;
+    }
 
     private void Start() {
-        ReactiveCrystalInfo.Subscribe(color => GameManager.Instance.eventManager.ChangeCrystal(color));
+        ReactiveCrystalInfo.Subscribe(color => _eventManager.ChangeCrystal(color));
     }
     
     public void CollectPoints(int pointsToAdd) {
@@ -23,7 +32,7 @@ public class Inventory : MonoBehaviour {
             ReactiveCrystalInfo.Value = CrystalColor.MULTI;
             AudioManager.Instance.Play("Won");
         }
-        GameManager.Instance.eventManager.PickPointUp(points);
+        _eventManager.PickPointUp(points);
     }
 
     public void DecreaseWasps() {

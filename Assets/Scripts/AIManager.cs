@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using VContainer;
 
 public class AIManager : MonoBehaviour {
+    private EventManager _eventManager;
+    
     public List<LionAI> lions = new();
     public GameObject chaseLight;
+    
+    [Inject]
+    private void Construct(EventManager eventManager) {
+        _eventManager = eventManager;
+    }
 
     private void Start() {
         chaseLight = GameObject.FindWithTag("ChaseLight");
-        GameManager.Instance.eventManager.OnLionSpawn += OnLionSpawn;
-        GameManager.Instance.eventManager.OnLionDestroy += OnLionDestroy;
-        GameManager.Instance.eventManager.OnLionAIStateChange += OnAIStateChange;
+        _eventManager.OnLionSpawn += OnLionSpawn;
+        _eventManager.OnLionDestroy += OnLionDestroy;
+        _eventManager.OnLionAIStateChange += OnAIStateChange;
     }
 
     private void OnLionDestroy(LionAI obj) {
@@ -27,9 +35,9 @@ public class AIManager : MonoBehaviour {
     }
 
     private void OnDisable() {
-        GameManager.Instance.eventManager.OnLionAIStateChange -= OnAIStateChange;
-        GameManager.Instance.eventManager.OnLionSpawn -= OnLionSpawn;
-        GameManager.Instance.eventManager.OnLionDestroy -= OnLionDestroy;
+        _eventManager.OnLionAIStateChange -= OnAIStateChange;
+        _eventManager.OnLionSpawn -= OnLionSpawn;
+        _eventManager.OnLionDestroy -= OnLionDestroy;
     }
 
     private void CheckIfPlayerIsChased() {

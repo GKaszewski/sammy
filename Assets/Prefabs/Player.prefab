@@ -201,7 +201,6 @@ GameObject:
   - component: {fileID: 207636873255143265}
   - component: {fileID: 266553929040427451}
   - component: {fileID: 266553929040427447}
-  - component: {fileID: 266553929040427445}
   - component: {fileID: 4759722207939493}
   - component: {fileID: 4759722207939501}
   - component: {fileID: 3484927581355335137}
@@ -209,6 +208,9 @@ GameObject:
   - component: {fileID: 6880751394884906192}
   - component: {fileID: 8007232017308761589}
   - component: {fileID: 2975138963925967865}
+  - component: {fileID: 6832022124643297784}
+  - component: {fileID: 5882603565957436880}
+  - component: {fileID: 5506356662206834123}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -297,40 +299,6 @@ MonoBehaviour:
   currentWaspType: 0
   crystalSpawnPosition: {fileID: 266553927681651702}
   previousColor: 0
---- !u!114 &266553929040427445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267550637794264221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71003a6ccfedab74ebef39ef85bb5839, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cc: {fileID: 4759722207939493}
-  intent: {x: 0, y: 0, z: 0}
-  walkSpeed: 5
-  runSpeed: 7
-  jumpForce: 5
-  slideSpeed: 12
-  rotationSpeed: 150
-  quickRotationTime: 0.2
-  maxStamina: 10000
-  knockbackTime: 0.15
-  feet: {fileID: 2156315319361977011}
-  groundDetectionRadius: 0.2
-  input: {x: 0, y: 0}
-  isJumping: 0
-  groundDetectionTime: 0.1
-  ccIsGrounded: 0
-  isGrounded: 0
-  isRunning: 0
-  cameraParent: {fileID: 0}
-  groundDetectionLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
 --- !u!143 &4759722207939493
 CharacterController:
   m_ObjectHideFlags: 0
@@ -384,7 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 4
-  playerController: {fileID: 266553929040427445}
+  playerMover: {fileID: 5882603565957436880}
   crystalHandler: {fileID: 2975138963925967865}
   inventory: {fileID: 266553929040427447}
   lives: 5
@@ -406,7 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 207636873255143265}
-  playerCharacterController: {fileID: 266553929040427445}
+  playerMover: {fileID: 5882603565957436880}
   dancingTime: 2.5
 --- !u!114 &6880751394884906192
 MonoBehaviour:
@@ -435,7 +403,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 266553929040427447}
   combatSystem: {fileID: 4759722207939501}
-  playerUIManager: {fileID: 0}
 --- !u!114 &2975138963925967865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,6 +416,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sammy.PlayerCrystalHandler
   crystalPrefab: {fileID: 7637454883208682958, guid: 9d356be9524cf92428b92cf2650c9a4b, type: 3}
+--- !u!114 &6832022124643297784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267550637794264221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc526258ae084898938d546b2e604eb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sammy.PlayerInput
+--- !u!114 &5882603565957436880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267550637794264221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0d9394bb4e432d9320f113edb3181b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sammy.PlayerMover
+  cc: {fileID: 4759722207939493}
+  playerInput: {fileID: 6832022124643297784}
+  playerStamina: {fileID: 5506356662206834123}
+  walkSpeed: 5
+  runSpeed: 7
+  jumpForce: 5
+  gravity: 10
+  knockbackTime: 0.15
+  rotationSpeed: 150
+  feet: {fileID: 2156315319361977011}
+  groundDetectionRadius: 0.2
+  groundDetectionLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  cameraParent: {fileID: 0}
+--- !u!114 &5506356662206834123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267550637794264221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fed3fee9b8d458ea1a572ffc19367f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sammy.PlayerStamina
+  playerInput: {fileID: 6832022124643297784}
+  maxStamina: 10000
+  staminaDrainRate: 5
 --- !u!1 &3451566357476000118
 GameObject:
   m_ObjectHideFlags: 0

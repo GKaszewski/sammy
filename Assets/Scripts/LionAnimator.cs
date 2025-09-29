@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using KBCore.Refs;
 using UnityEngine;
+using VContainer;
 
 public class LionAnimator : MonoBehaviour
 {
@@ -21,15 +22,22 @@ public class LionAnimator : MonoBehaviour
     private float _lockedTill;
     private int _currentState;
     private bool _attacked = false;
+    private EventManager _eventManager;
+    
+    [Inject]
+    private void Construct(EventManager eventManager)
+    {
+        _eventManager = eventManager;
+    }
 
     private void Start()
     {
-        GameManager.Instance.eventManager.OnLionAttack += OnAttack;
+        _eventManager.OnLionAttack += OnAttack;
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.eventManager.OnLionAttack -= OnAttack;
+        _eventManager.OnLionAttack -= OnAttack;
     }
 
     private void OnAttack()
