@@ -1,3 +1,4 @@
+using Sammy.Handlers;
 using Sammy.Interfaces;
 using Sammy.Models;
 using UnityEngine;
@@ -7,62 +8,28 @@ namespace Sammy.Controllers
 {
     public class PlayerController : ITickable
     {
-        private readonly IInputService _inputService;
         private readonly IPlayerDataService _playerData;
         private readonly IPlayerView _playerView;
         private readonly IEffectsService _effectsService;
         private readonly IAudioService _audioService;
-
-        private readonly float _walkSpeed = 5f; 
-        private readonly float _runSpeed = 7f; 
-        private readonly float _jumpForce = 5f; 
-        private readonly float _gravity = 10f; 
-        private Vector3 _velocity;
         
-        public PlayerController(IInputService inputService, IPlayerDataService playerData, IPlayerView playerView, IEffectsService effectsService, IAudioService audioService)
+        private readonly PlayerMovementHandler _movementHandler;
+        private readonly PlayerCombatHandler _combatHandler;
+        
+        public PlayerController(IPlayerDataService playerData, IPlayerView playerView, IEffectsService effectsService, IAudioService audioService, PlayerMovementHandler movementHandler, PlayerCombatHandler combatHandler)
         {
-            _inputService = inputService;
             _playerData = playerData;
             _playerView = playerView;
             _effectsService = effectsService;
             _audioService = audioService;
+            _movementHandler = movementHandler;
+            _combatHandler = combatHandler;
         }
         
         public void Tick()
         {
-            var isGrounded = _playerView.IsGrounded;
-            
-            if (isGrounded && _velocity.y < 0)
-            {
-                _velocity.y = -0.5f; 
-            }
-            else
-            {
-                _velocity.y -= _gravity * Time.deltaTime; 
-            }
-
-            var currentSpeed = _inputService.IsRunHeld ? _runSpeed : _walkSpeed; 
-            var moveIntent = _playerView.Transform.forward * (_inputService.MoveInput.y * currentSpeed);
-            _velocity.x = moveIntent.x;
-            _velocity.z = moveIntent.z;
-
-            if (_inputService.IsJumpPressed && isGrounded)
-            {
-                _velocity.y = _jumpForce; 
-            }
-
-            _playerView.Move(_velocity * Time.deltaTime);
-
-            if (_inputService.MoveInput.magnitude > 0)
-            {
-                _playerView.Rotate(_inputService.MoveInput.x); 
-            }
-
-            if (_inputService.IsFirePressed && _playerData.Wasps.Value > 0)
-            {
-                _playerView.SpawnWasp(_playerData.CurrentWaspType); 
-                _playerData.DecreaseWasps(); 
-            }
+            _movementHandler.Tick();
+            _combatHandler.Tick();
         }
         
         public void OnCrystalCollision(CrystalColor newCrystalColor)

@@ -1,5 +1,6 @@
 using Sammy;
 using Sammy.Controllers;
+using Sammy.Handlers;
 using Sammy.Interfaces;
 using Sammy.Services;
 using Sammy.Views;
@@ -19,6 +20,9 @@ public class GameLifetimeScope : LifetimeScope
         
         builder.RegisterComponentInHierarchy<PlayerView>().As<IPlayerView>();
         builder.RegisterComponentInHierarchy<UIView>().As<IUIView>();
+        
+        builder.Register<IPlayerMovementHandler, PlayerMovementHandler>(Lifetime.Scoped);
+        builder.Register<IPlayerCombatHandler, PlayerCombatHandler>(Lifetime.Scoped);
         
         builder.RegisterEntryPoint<PlayerController>();
         builder.RegisterEntryPoint<UIPresenter>();
